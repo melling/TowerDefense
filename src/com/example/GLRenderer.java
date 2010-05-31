@@ -36,7 +36,7 @@ public class GLRenderer implements GLSurfaceView.Renderer {
         gl.glClear(GL10.GL_COLOR_BUFFER_BIT | GL10.GL_DEPTH_BUFFER_BIT);
         gl.glLoadIdentity();
 
-        gl.glTranslatef(0.0f, -1.2f, -2.0f);    //Move down 1.2 Unit And Into The Screen 6.0
+        gl.glTranslatef(0.0f, -1.2f, -6.0f);    //Move down 1.2 Unit And Into The Screen 6.0
         square.draw(gl);                                                //Draw the square
     }
 
@@ -48,7 +48,12 @@ public class GLRenderer implements GLSurfaceView.Renderer {
         // setup projection matrix
         gl.glMatrixMode(GL10.GL_PROJECTION);
         gl.glLoadIdentity();
+        
         GLU.gluPerspective(gl, 45.0f, (float) width / (float) height, 1.0f, 100.0f);
+        gl.glMatrixMode(GL10.GL_MODELVIEW);     //Select The Modelview Matrix
+        
+        gl.glLoadIdentity();
+        
     }
 
 }

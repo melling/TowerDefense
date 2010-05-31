@@ -23,7 +23,7 @@ public class TowerDefense extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-   //     requestWindowFeature(Window.FEATURE_NO_TITLE);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
 
         surface = new GLSurfaceView(this);
         renderer = new GLRenderer();
