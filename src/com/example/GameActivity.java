@@ -11,10 +11,7 @@ import android.view.Window;
  * Date: May 31, 2010
  * Time: 3:02:03 PM
  */
-public class TowerDefense extends Activity {
-
-    private GLSurfaceView surface;
-    private GLRenderer renderer;
+public class GameActivity extends Activity {
 
     /**
      * Called when the activity is first created.
@@ -25,10 +22,7 @@ public class TowerDefense extends Activity {
 
         requestWindowFeature(Window.FEATURE_NO_TITLE);
 
-        surface = new GLSurfaceView(this);
-        renderer = new GLRenderer();
-        surface.setRenderer(renderer);
-        setContentView(surface);
-//        setContentView(R.layout.main);
+        GLSurfaceView glSurface = new GameGLSurfaceView(this);
+        setContentView(glSurface);
     }
 }
