@@ -8,7 +8,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.Window;
-import com.example.R;
 import com.pro.PolygonRenderer;
 import com.td.GLRenderer;
 //import com.td.R;

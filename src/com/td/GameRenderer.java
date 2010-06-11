@@ -3,11 +3,7 @@ package com.td;
 import android.content.Context;
 import android.opengl.GLSurfaceView;
 import android.opengl.GLU;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import com.td.*;
+
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
@@ -20,6 +16,7 @@ import javax.microedition.khronos.opengles.GL10;
  */
 
 public class GameRenderer implements GLSurfaceView.Renderer {
+
 
 
     private Context context;
@@ -77,37 +74,8 @@ public class GameRenderer implements GLSurfaceView.Renderer {
 
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
 
-        if (item.getItemId() == R.id.mid_OpenGL_AnimatedTriangle15) {
-            Log.i("FOO", "Clicked mid_OpenGL_AnimatedTriangle15 II");
-            surface = new GLSurfaceView(this);
-            // renderer = new GLRenderer();
-            renderer = new com.pro.PolygonRenderer(this);
-            surface.setRenderer(renderer);
-//             renderer.setContext(this);
-            setContentView(surface);
 
-        } else if (item.getItemId() == R.id.mid_rectangle) {
-            Log.i("FOO", "Clicked mid_OpenGL_AnimatedTriangle15 II");
-            surface = new GLSurfaceView(this);
-            renderer1 = new com.td.GLRenderer();
-//             renderer = new PolygonRenderer(this);
-            surface.setRenderer(renderer1);
-            renderer1.setContext(this);
-            setContentView(surface);
 
-        }
-        return true;
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu1, menu);
-
-        return true;
-    }
 }
 
