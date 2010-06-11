@@ -53,7 +53,7 @@ public class GameRenderer implements GLSurfaceView.Renderer {
         gl.glLoadIdentity();
 
         gl.glTranslatef(0.0f, -1.2f, -2.0f);    //Move down 1.2 Unit And Into The Screen 2.0
-        square.draw(gl, false, 10L);                                                //Draw the square
+        square.draw(gl, true, 10L);                                                //Draw the square
 //        square.draw(gl);                                                //Draw the square
     }
 
