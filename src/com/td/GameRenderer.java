@@ -1,8 +1,13 @@
-package com.example;
+package com.td;
 
 import android.content.Context;
 import android.opengl.GLSurfaceView;
 import android.opengl.GLU;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import com.td.*;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
@@ -51,11 +56,11 @@ public class GameRenderer implements GLSurfaceView.Renderer {
         gl.glLoadIdentity();
 
         gl.glTranslatef(0.0f, -1.2f, -2.0f);    //Move down 1.2 Unit And Into The Screen 2.0
-        square.draw(gl,false,10L);                                                //Draw the square
+        square.draw(gl, false, 10L);                                                //Draw the square
 //        square.draw(gl);                                                //Draw the square
     }
 
-    
+
     public void onSurfaceChanged(GL10 gl, int width, int height) {
         // avoid division by zero
         if (height == 0) height = 1;
@@ -72,5 +77,37 @@ public class GameRenderer implements GLSurfaceView.Renderer {
 
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        if (item.getItemId() == R.id.mid_OpenGL_AnimatedTriangle15) {
+            Log.i("FOO", "Clicked mid_OpenGL_AnimatedTriangle15 II");
+            surface = new GLSurfaceView(this);
+            // renderer = new GLRenderer();
+            renderer = new com.pro.PolygonRenderer(this);
+            surface.setRenderer(renderer);
+//             renderer.setContext(this);
+            setContentView(surface);
+
+        } else if (item.getItemId() == R.id.mid_rectangle) {
+            Log.i("FOO", "Clicked mid_OpenGL_AnimatedTriangle15 II");
+            surface = new GLSurfaceView(this);
+            renderer1 = new com.td.GLRenderer();
+//             renderer = new PolygonRenderer(this);
+            surface.setRenderer(renderer1);
+            renderer1.setContext(this);
+            setContentView(surface);
+
+        }
+        return true;
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu1, menu);
+
+        return true;
+    }
 }
 

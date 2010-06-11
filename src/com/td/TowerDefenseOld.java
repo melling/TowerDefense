@@ -20,7 +20,7 @@ import com.td.GLRenderer;
  * Time: 3:02:03 PM
  */
 
-public class TowerDefense extends Activity {
+public class TowerDefenseOld extends Activity {
 
     private GLSurfaceView surface;
     private PolygonRenderer renderer;
@@ -61,37 +61,37 @@ public class TowerDefense extends Activity {
         
     }
     
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-    	
-    	if (item.getItemId() == R.id.mid_OpenGL_AnimatedTriangle15) {
-        	Log.i("FOO", "Clicked mid_OpenGL_AnimatedTriangle15 II");
-            surface = new GLSurfaceView(this);
-            // renderer = new GLRenderer();
-             renderer = new com.pro.PolygonRenderer(this);
-             surface.setRenderer(renderer);
-//             renderer.setContext(this);
-             setContentView(surface);
-
-    	}else if (item.getItemId() == R.id.mid_rectangle) {
-        	Log.i("FOO", "Clicked mid_OpenGL_AnimatedTriangle15 II");
-            surface = new GLSurfaceView(this);
-             renderer1 = new GLRenderer();
-//             renderer = new PolygonRenderer(this);
-             surface.setRenderer(renderer1);
-             renderer1.setContext(this);
-             setContentView(surface);
-
-    	}
-    	return true;
-    }
-    
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu)
-    {
-    	MenuInflater inflater = getMenuInflater();
-    	inflater.inflate(R.menu.menu1, menu);
-    	
-    	return true;
-    }
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//
+//    	if (item.getItemId() == R.id.mid_OpenGL_AnimatedTriangle15) {
+//        	Log.i("FOO", "Clicked mid_OpenGL_AnimatedTriangle15 II");
+//            surface = new GLSurfaceView(this);
+//            // renderer = new GLRenderer();
+//             renderer = new com.pro.PolygonRenderer(this);
+//             surface.setRenderer(renderer);
+////             renderer.setContext(this);
+//             setContentView(surface);
+//
+//    	}else if (item.getItemId() == R.id.mid_rectangle) {
+//        	Log.i("FOO", "Clicked mid_OpenGL_AnimatedTriangle15 II");
+//            surface = new GLSurfaceView(this);
+//             renderer1 = new GLRenderer();
+////             renderer = new PolygonRenderer(this);
+//             surface.setRenderer(renderer1);
+//             renderer1.setContext(this);
+//             setContentView(surface);
+//
+//    	}
+//    	return true;
+//    }
+//
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu)
+//    {
+//    	MenuInflater inflater = getMenuInflater();
+//    	inflater.inflate(R.menu.menu1, menu);
+//
+//    	return true;
+//    }
 }
