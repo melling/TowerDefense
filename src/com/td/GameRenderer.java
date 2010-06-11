@@ -3,6 +3,7 @@ package com.td;
 import android.content.Context;
 import android.opengl.GLSurfaceView;
 import android.opengl.GLU;
+import android.util.Log;
 
 
 import javax.microedition.khronos.egl.EGLConfig;
@@ -17,10 +18,13 @@ import javax.microedition.khronos.opengles.GL10;
 
 public class GameRenderer implements GLSurfaceView.Renderer {
 
-
-
+    private static final String TAG = "GameRenderer"; 
     private Context context;
     private Square square;
+
+    private long gameTime;
+    private long gameStartTime;
+    private long normalizedGameTime;
 
     /*
     * @param context Our context
@@ -49,11 +53,23 @@ public class GameRenderer implements GLSurfaceView.Renderer {
     }
 
     public void onDrawFrame(GL10 gl) {
+
+        long currentTime = System.currentTimeMillis();
+        normalizedGameTime = (currentTime - gameStartTime) / 1000; // Time in seconds
+
+        boolean move = false;
+        if ((currentTime - gameTime) > 100) {
+//            Log.i(TAG, "GameTime: " +  gameTime + ", " + (currentTime - gameTime));
+            move = true;
+            gameTime = currentTime;
+        }
+
+
         gl.glClear(GL10.GL_COLOR_BUFFER_BIT | GL10.GL_DEPTH_BUFFER_BIT);
         gl.glLoadIdentity();
 
         gl.glTranslatef(0.0f, -1.2f, -2.0f);    //Move down 1.2 Unit And Into The Screen 2.0
-        square.draw(gl, true, 10L);                                                //Draw the square
+        square.draw(gl, move, normalizedGameTime);                                                //Draw the square
 //        square.draw(gl);                                                //Draw the square
     }
 
@@ -74,7 +90,13 @@ public class GameRenderer implements GLSurfaceView.Renderer {
 
     }
 
-
+    public void initGameTime() {
+//        this.context = context;
+        gameTime = System.currentTimeMillis();
+        Log.i(TAG, "GameStart: " + gameTime);
+        gameStartTime = gameTime;
+        normalizedGameTime = gameTime - gameStartTime;
+    }
 
 
 }
