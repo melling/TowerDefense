@@ -13,11 +13,11 @@
       <item android:id="@+id/mid_square_polygon"
       android:title="Feras Test" />
 
-      <item android:id="@+id/mid_rectangle"
+      <item android:id="@+id/tower_defense"
       android:title="Tower Defense" />
       
 
-      <item android:id="@+id/mid_OpenGL_AnimatedTriangle15"
+      <item android:id="@+id/pro_android"
       android:title="Pro Android2" />
       
       <item android:id="@+id/mid_textured_square"      android:title="textured square" />

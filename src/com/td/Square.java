@@ -85,7 +85,7 @@ public class Square {
         gl.glTranslatef(xc, yc, -4.0f);
         gl.glRotatef(angle, 0, 0, 1);
         if (startTime < normalizedGameTime) {
-            Log.i(TAG,"Not time to move yet: " + startTime + "<" + normalizedGameTime);
+//            Log.i(TAG,"Not time to move yet: " + startTime + "<" + normalizedGameTime);
         }                     
         if (move && (startTime < normalizedGameTime)) {
             angle += 25;

@@ -19,8 +19,10 @@ import com.pro.PolygonRenderer;
 public class GameActivity extends Activity {
 
     private GameGLSurfaceView surface;
+    private GLSurfaceView surfaceProAndroid;
+    //
     private PolygonRenderer renderer;
-    private GameRenderer renderer1;
+    private GLRenderer renderer1;
 
     /**
      * Called when the activity is first created.
@@ -38,23 +40,26 @@ public class GameActivity extends Activity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
-        if (item.getItemId() == R.id.mid_OpenGL_AnimatedTriangle15) {
-            Log.i("FOO", "Clicked mid_OpenGL_AnimatedTriangle15 II");
-            surface = new GameGLSurfaceView(this);
+        if (item.getItemId() == R.id.pro_android) {
+            Log.i("FOO", "Clicked Pro Android II");
+//            surface = new GameGLSurfaceView(this);
+            surfaceProAndroid = new GLSurfaceView(this);
             // renderer = new GLRenderer();
             renderer = new com.pro.PolygonRenderer(this);
-            surface.setRenderer(renderer);
+            surfaceProAndroid.setRenderer(renderer);
 //             renderer.setContext(this);
-//            setContentView(surface);
+            setContentView(surfaceProAndroid);
 
-        } else if (item.getItemId() == R.id.mid_rectangle) {
-            Log.i("FOO", "Clicked mid_OpenGL_AnimatedTriangle15 II");
+        } else if (item.getItemId() == R.id.tower_defense) {
+            Log.i("FOO", "Clicked TowerDefense");
+//            surface1 = new GLSurfaceView(this);
             surface = new GameGLSurfaceView(this);
-            renderer1 = new com.td.GameRenderer(this);
+//            renderer1 = new com.td.GameRenderer(this);
+//            renderer1 = new GLRenderer();
 //             renderer = new PolygonRenderer(this);
-            surface.setRenderer(renderer1);
+//            surface.setRenderer(renderer1);
 //            renderer1.setContext(this);
-//            setContentView(surface);
+            setContentView(surface);
 
         }
         return true;
