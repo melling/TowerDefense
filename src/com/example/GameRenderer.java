@@ -27,7 +27,9 @@ public class GameRenderer implements GLSurfaceView.Renderer {
     public GameRenderer(Context context) {
         this.context = context;
 
-        square = new Square(context);
+//        square = new Square(context);
+        square = new Square();
+
 
     }
 
@@ -49,9 +51,11 @@ public class GameRenderer implements GLSurfaceView.Renderer {
         gl.glLoadIdentity();
 
         gl.glTranslatef(0.0f, -1.2f, -2.0f);    //Move down 1.2 Unit And Into The Screen 2.0
-        square.draw(gl);                                                //Draw the square
+        square.draw(gl,false,10L);                                                //Draw the square
+//        square.draw(gl);                                                //Draw the square
     }
 
+    
     public void onSurfaceChanged(GL10 gl, int width, int height) {
         // avoid division by zero
         if (height == 0) height = 1;

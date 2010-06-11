@@ -1,4 +1,4 @@
-package com.example;
+package com.td;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
@@ -7,7 +7,6 @@ import java.util.List;
 
 import javax.microedition.khronos.opengles.GL10;
 
-import android.content.Context;
 import android.util.Log;
 
 /**
@@ -53,30 +52,6 @@ public class Square {
     private float dy;
     public int startTime;
 
-    private Context context;
-    
-      /**
-     * The Square constructor.
-     * <p/>
-     * Initiate the buffers.
-     */
-    public Square(Context context) {
-
-        this.context = context;
-        //
-        ByteBuffer byteBuf = ByteBuffer.allocateDirect(vertices.length * 4);
-        byteBuf.order(ByteOrder.nativeOrder());
-        vertexBuffer = byteBuf.asFloatBuffer();
-        vertexBuffer.put(vertices);
-        vertexBuffer.position(0);
-
-//        // Setup for texture map of icon
-//        byteBuf = ByteBuffer.allocateDirect(texCoords.length * 4);
-//        byteBuf.order(ByteOrder.nativeOrder());
-//        textureBuffer = byteBuf.asFloatBuffer();
-//        textureBuffer.put(texCoords);
-//        textureBuffer.position(0);
-    }
     /**
      * The Square constructor.
      * <p/>
