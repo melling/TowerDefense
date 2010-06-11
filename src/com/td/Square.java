@@ -42,11 +42,19 @@ public class Square {
     /**
      * The initial vertex definition
      */
+    float qWidth = 5f;
+//    private float vertices[] = {
+//            -qWidth, -qWidth, 0.0f, //Bottom Left
+//            qWidth, -qWidth, 0.0f,     //Bottom Right
+//            -qWidth, qWidth, 0.0f,     //Top Left
+//            qWidth, qWidth, 0.0f     //Top Right
+//    };
+//
     private float vertices[] = {
-            -1.0f, -1.0f, 0.0f, //Bottom Left
-            1.0f, -1.0f, 0.0f,     //Bottom Right
-            -1.0f, 1.0f, 0.0f,     //Top Left
-            1.0f, 1.0f, 0.0f     //Top Right
+            -qWidth, -qWidth, //Bottom Left
+            qWidth, -qWidth,     //Bottom Right
+            -qWidth, qWidth,     //Top Left
+            qWidth, qWidth     //Top Right
     };
     private float dx;
     private float dy;
@@ -84,14 +92,15 @@ public class Square {
         gl.glPushMatrix();
         gl.glTranslatef(xc, yc, -4.0f);
         gl.glRotatef(angle, 0, 0, 1);
-        if (startTime < normalizedGameTime) {
-//            Log.i(TAG,"Not time to move yet: " + startTime + "<" + normalizedGameTime);
-        }                     
-        if (move && (startTime < normalizedGameTime)) {
+        if (startTime > normalizedGameTime) {
+            Log.i(TAG, "Not time to move yet: " + startTime + ">" + normalizedGameTime);
+        }
+//        if (move && (startTime > normalizedGameTime)) {
+        if (move) {
             angle += 25;
             yc = yc + dy;
             xc = xc + dx;
-            nextWayPointY = 1.45;
+//            nextWayPointY = 1.45;
             if (dy > 0 && dx == 0f) { // Moving Up
                 if (yc >= nextWayPointY) {
                     nextWayPoint();
@@ -106,13 +115,14 @@ public class Square {
             }
         }
 
-//        Log.i("draw", xc + " , " + yc);
-        gl.glScalef(0.05f, 0.05f, 1.0f);
-        gl.glFrontFace(GL10.GL_CW);
+        Log.i("draw", xc + " , " + yc);
+//        gl.glScalef(0.05f, 0.05f, 1.0f);
+//        gl.glFrontFace(GL10.GL_CW);
 
 
         //Point to our vertex buffer
-        gl.glVertexPointer(3, GL10.GL_FLOAT, 0, vertexBuffer);
+//        gl.glVertexPointer(3, GL10.GL_FLOAT, 0, vertexBuffer);
+        gl.glVertexPointer(2, GL10.GL_FLOAT, 0, vertexBuffer);
 
         //Enable vertex buffer
         gl.glEnableClientState(GL10.GL_VERTEX_ARRAY);
@@ -121,7 +131,7 @@ public class Square {
         gl.glColor4f(redColor, greenColor, blueColor, 1.0f);
 
         //Draw the vertices as triangle strip
-        gl.glDrawArrays(GL10.GL_TRIANGLE_STRIP, 0, vertices.length / 3);
+        gl.glDrawArrays(GL10.GL_TRIANGLE_STRIP, 0, vertices.length / 2);
         //Disable the client state before leaving
         gl.glDisableClientState(GL10.GL_VERTEX_ARRAY);
         gl.glPopMatrix();
