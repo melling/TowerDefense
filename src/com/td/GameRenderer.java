@@ -28,7 +28,7 @@ public class GameRenderer implements GLSurfaceView.Renderer {
     private Context context;
 
     private List<Square> enemyUnits;
-    private List<Circle>circleUnits;
+    private List<Circle> circleUnits;
 
     private List<WayPoint> wayPoints;
 
@@ -63,6 +63,7 @@ public class GameRenderer implements GLSurfaceView.Renderer {
 
         wayPoints = new ArrayList<WayPoint>();
         enemyUnits = new ArrayList<Square>();
+        circleUnits = new ArrayList<Circle>();
 
         loadWayPoints();
         loadEnemyUnits();
@@ -207,6 +208,7 @@ public class GameRenderer implements GLSurfaceView.Renderer {
                         enemyUnits.add(square);
                     } else if (fields[0].startsWith("Circle")) {
                     	
+                    	
 //                    	int startTime = Integer.parseInt(fields[i]);
 //                         i++;
 //                         String colors = fields[i];
@@ -217,8 +219,9 @@ public class GameRenderer implements GLSurfaceView.Renderer {
 //                         i++;
 //                         String[] rgbStr = colors.split(",");
                     	
-                    	circle = new Circle(0,levelStartY,0,1,30);
+                    	circle = new Circle(0,0,0,1,30);
                     	circle.setWayPoints(wayPoints);
+                    	circleUnits.add(circle);
 
                     }
                 }

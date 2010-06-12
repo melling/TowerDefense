@@ -71,12 +71,10 @@ public class Circle {
 	}
 
 	public void draw(GL10 gl, boolean move, long gameTime) {
-		gl.glEnable(GL10.GL_DITHER);
-		gl.glClear(GL10.GL_COLOR_BUFFER_BIT | GL10.GL_DEPTH_BUFFER_BIT);
-		gl.glMatrixMode(GL10.GL_MODELVIEW);
-		gl.glLoadIdentity();
 		gl.glPushMatrix();
-		cx = cx + 0.02f;
+   //     gl.glTranslatef(xc, yc, -4.0f);
+		
+		cx = cx + 2;
 		// cy=cy+0.02f;
 		float dispx = cx;
 		float dispy = cy;
@@ -85,12 +83,14 @@ public class Circle {
 		GLU.gluLookAt(gl, 0, 0, -5, 0f, 0f, 0f, 0f, 1.0f, 0.0f);
 		gl.glEnableClientState(GL10.GL_VERTEX_ARRAY);
 		long curtime = SystemClock.uptimeMillis();
+		
 		if ((curtime - prevtime) > 200) {
 			prevtime = curtime;
 			sides += 1;
 			if (sides > 50) {
 				sides = 3;
 			}
+			
 			if (move) {
 				// angle += 25;
 				cy = cy + dy;
@@ -109,9 +109,10 @@ public class Circle {
 
 				}
 			}
-
-			this.prepareBuffers(this.cx, this.cy, this.cz, radius, sides);
+			
+		
 		}
+		this.prepareBuffers(this.cx, this.cy, this.cz, radius, sides);
 		// EvenPolygon.test();
 		// gl.glColor4f(1.0f, 0, 0, 0.3f);
 		gl.glColor4f(1.0f, 0.5f, 0.5f, 0.3f);
