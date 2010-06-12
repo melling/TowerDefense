@@ -25,9 +25,8 @@ public class Square {
      * The buffer holding the vertices
      */
     private FloatBuffer vertexBuffer;
-    public float yc = -1.2f;
-    public float xc = 0.9f;
-    int i = 0;
+    public int yc = -1;
+    public int xc = 1;
     public float redColor = 0.0f;
     public float blueColor = 0.0f;
     public float greenColor = 0.5f;
@@ -35,29 +34,23 @@ public class Square {
 
     double nextWayPointX;
     double nextWayPointY;
-
-    boolean isVisible = false;
+    boolean isAlive = true;
+//    boolean isVisible = false;
     List<WayPoint> wayPoints;
     int currentWayPoint = 0;
     /**
      * The initial vertex definition
      */
     float qWidth = 5f;
-//    private float vertices[] = {
-//            -qWidth, -qWidth, 0.0f, //Bottom Left
-//            qWidth, -qWidth, 0.0f,     //Bottom Right
-//            -qWidth, qWidth, 0.0f,     //Top Left
-//            qWidth, qWidth, 0.0f     //Top Right
-//    };
-//
+
     private float vertices[] = {
             -qWidth, -qWidth, //Bottom Left
             qWidth, -qWidth,     //Bottom Right
             -qWidth, qWidth,     //Top Left
             qWidth, qWidth     //Top Right
     };
-    private float dx;
-    private float dy;
+    private int dx;
+    private int dy;
     public int startTime;
 
     /**
@@ -85,9 +78,14 @@ public class Square {
      * Called from the renderer to redraw this instance
      * with possible changes in values.
      *
-     * @param gl - The GL context
+     * @param gl                 - The GL context
+     * @param move               - Can we move
+     * @param normalizedGameTime - Time in seconds since game began, ignoring user pauses
      */
     public void draw(GL10 gl, boolean move, long normalizedGameTime) {
+
+        if (!isAlive) return; // TODO: Just make sure object is removed
+
         //Set the face rotation
         gl.glPushMatrix();
         gl.glTranslatef(xc, yc, -4.0f);
@@ -100,35 +98,40 @@ public class Square {
             angle += 25;
             yc = yc + dy;
             xc = xc + dx;
-//            nextWayPointY = 1.45;
-            if (dy > 0 && dx == 0f) { // Moving Up
+            if (dy > 0 && dx == 0) { // Moving Up
                 if (yc >= nextWayPointY) {
                     nextWayPoint();
                 }
 
-            } else if (dy == 0 && dx < 0f) {  // Moving Left
+            } else if (dy == 0 && dx < 0) {  // Moving Left
                 if (xc <= nextWayPointX) {
                     nextWayPoint();
                 }
-            } else if (dy <= 0f && dx > 0f) {  // Moving diagonal to right
+            } else if (dy < 0 && dx == 0) {  // Moving down
+                if (yc <= nextWayPointY) {
+                    nextWayPoint();
+                }
+            } else if (dy == 0 && dx > 0) {  // Moving right
+                if (xc >= nextWayPointY) {
+                    nextWayPoint();
+                }
+            } else if (dy <= 0 && dx > 0) {  // Moving diagonal to right
 
             }
         }
 
-        Log.i("draw", xc + " , " + yc);
+//        Log.i("draw", xc + " , " + yc);
 //        gl.glScalef(0.05f, 0.05f, 1.0f);
-//        gl.glFrontFace(GL10.GL_CW);
 
 
         //Point to our vertex buffer
-//        gl.glVertexPointer(3, GL10.GL_FLOAT, 0, vertexBuffer);
         gl.glVertexPointer(2, GL10.GL_FLOAT, 0, vertexBuffer);
 
         //Enable vertex buffer
         gl.glEnableClientState(GL10.GL_VERTEX_ARRAY);
 
         //Set The Color To Blue
-        gl.glColor4f(redColor, greenColor, blueColor, 1.0f);
+        gl.glColor4f(redColor, greenColor, blueColor, 1);
 
         //Draw the vertices as triangle strip
         gl.glDrawArrays(GL10.GL_TRIANGLE_STRIP, 0, vertices.length / 2);
@@ -138,18 +141,38 @@ public class Square {
 
     }
 
-    public void nextWayPoint() {
-        Log.i("Square", "Moving from wayPoint: " + currentWayPoint + "=>" + (currentWayPoint + 1));
-        WayPoint wayPoint0 = wayPoints.get(currentWayPoint);
-        WayPoint wayPoint1 = wayPoints.get(currentWayPoint + 1);
-        dx = wayPoint0.dx;
-        dy = wayPoint0.dy;
-        nextWayPointX = wayPoint1.x;
-        nextWayPointY = wayPoint1.y;
+    /*
+     *
+     */
 
-        currentWayPoint++;
+    public void nextWayPoint() {
+        int nWayPoints = wayPoints.size();
+        Log.i("Square", "Moving from wayPoint: " + currentWayPoint + "=>" + (currentWayPoint + 1) + " T:" + nWayPoints);
+        if ((currentWayPoint + 1) < nWayPoints) {
+            WayPoint wayPoint0 = wayPoints.get(currentWayPoint);
+            WayPoint wayPoint1 = wayPoints.get(currentWayPoint + 1);
+            dx = wayPoint0.dx;
+            dy = wayPoint0.dy;
+            nextWayPointX = wayPoint1.x;
+            nextWayPointY = wayPoint1.y;
+            Log.i("Square", "(x,y,dx,dy)=>("
+                    + nextWayPointX + ","
+                    + nextWayPointY + ","
+                    + dx + ","
+                    + dy + ")");
+
+            currentWayPoint++;
+        } else {
+            Log.i(TAG, "Unit reached the end of waypoints: "
+                    + (currentWayPoint + 1) + ">"
+                    + nWayPoints);
+            isAlive = false;
+        }
     }
 
+    /*
+     *
+     */
     public void initOrigin() {
         currentWayPoint = 0;
         nextWayPoint();

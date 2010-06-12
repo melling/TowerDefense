@@ -2,7 +2,6 @@ package com.td;
 
 import android.content.Context;
 import android.opengl.GLSurfaceView;
-import com.td.GameRenderer;
 
 /**
  * Created by IntelliJ IDEA.

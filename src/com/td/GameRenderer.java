@@ -26,7 +26,6 @@ public class GameRenderer implements GLSurfaceView.Renderer {
 
     private static final String TAG = "GameRenderer";
     private Context context;
-    private Square square;
 
     private List<Square> enemyUnits;
 
@@ -38,7 +37,7 @@ public class GameRenderer implements GLSurfaceView.Renderer {
     private long normalizedGameTime;
 
     /*
-    * @param context Our context
+    * @param context - Our app context
     */
 
     public GameRenderer(Context context) {
@@ -61,28 +60,9 @@ public class GameRenderer implements GLSurfaceView.Renderer {
         gl.glHint(GL10.GL_PERSPECTIVE_CORRECTION_HINT, GL10.GL_NICEST);
 
         wayPoints = new ArrayList<WayPoint>();
-        /*
-
-                1,0.9,-1.35,0.0,0.05
-        2,0.9,1.45,0.05,0.0
-        3,-1.0,1.45,0.0,-0.05
-        */
         enemyUnits = new ArrayList<Square>();
 
-        WayPoint wp;
-        float standardDelta = 5f;
-        wp = new WayPoint(1, 20f, 20f, 0f, standardDelta);
-        wayPoints.add(wp);
-
-        wp = new WayPoint(2, 20f, 300f, -standardDelta, 0f);
-        wayPoints.add(wp);
-
-        wp = new WayPoint(3, 20.0f, 300.45f, 0.0f, -standardDelta);
-        wayPoints.add(wp);
-
-        wp = new WayPoint(4, 20f, -300.0f, standardDelta, -standardDelta);
-        wayPoints.add(wp);
-
+        loadWayPoints();
         loadEnemyUnits();
 
     }
@@ -94,11 +74,11 @@ public class GameRenderer implements GLSurfaceView.Renderer {
 
         boolean move = false;
         if ((currentTime - gameTime) > 50) {
-//            Log.i(TAG, "MOVEIT - GameTime: " + gameTime + ", " + (currentTime - gameTime));
+//            Log.i(TAG, "MOVE IT - GameTime: " + gameTime + ", " + (currentTime - gameTime));
             move = true;
             gameTime = currentTime;
         } else {
-//            Log.i(TAG, "DONT MOVE - GameTime: " +  gameTime + ", " + (currentTime - gameTime));
+//            Log.i(TAG, "DON'T MOVE - GameTime: " +  gameTime + ", " + (currentTime - gameTime));
 
         }
 
@@ -106,14 +86,8 @@ public class GameRenderer implements GLSurfaceView.Renderer {
         gl.glClear(GL10.GL_COLOR_BUFFER_BIT | GL10.GL_DEPTH_BUFFER_BIT);
         gl.glLoadIdentity();
 
-//        gl.glTranslatef(0.0f, -1.2f, -2.0f);    //Move down 1.2 Unit And Into The Screen 2.0
-//        square.draw(gl, move, normalizedGameTime);                                                //Draw the square
-//        square.draw(gl);                                                //Draw the square
-        /// Square
-        int i = 0;
         for (Square e : enemyUnits) {
 //            Log.i("onDraw", "" + i);
-            i++;
             //square.draw(gl);
             e.draw(gl, move, normalizedGameTime);
 
@@ -145,21 +119,12 @@ public class GameRenderer implements GLSurfaceView.Renderer {
 
 
     }
-//    public void onSurfaceChanged(GL10 gl, int width, int height) {
-//        // avoid division by zero
-//        if (height == 0) height = 1;
-//        // draw on the entire screen
-//        gl.glViewport(0, 0, width, height);
-//        // setup projection matrix
-//        gl.glMatrixMode(GL10.GL_PROJECTION);
-//        gl.glLoadIdentity();
-//
-//        GLU.gluPerspective(gl, 45.0f, (float) width / (float) height, 1.0f, 100.0f);
-//        gl.glMatrixMode(GL10.GL_MODELVIEW);     //Select The Modelview Matrix
-//
-//        gl.glLoadIdentity();
-//
-//    }
+
+
+    /*
+    *
+    *
+    */
 
     public void initGameTime() {
 //        this.context = context;
@@ -169,10 +134,16 @@ public class GameRenderer implements GLSurfaceView.Renderer {
         normalizedGameTime = gameTime - gameStartTime;
     }
 
+
+    /*
+     *
+     * 
+     */
+
     void loadEnemyUnits() {
         String[] fields = new String[10];
         int nCol;
-        float levelStartY = 10f;
+        int levelStartY = 10;
         int i;
         try {
 
@@ -186,7 +157,6 @@ public class GameRenderer implements GLSurfaceView.Renderer {
                     lineScanner.useDelimiter("\\|");
                     nCol = 0;
                     fields[nCol] = lineScanner.next();
-                    String category = fields[0];
 
                     nCol++;
                     while (lineScanner.hasNext()) { // At this point we know we want the line
@@ -201,11 +171,13 @@ public class GameRenderer implements GLSurfaceView.Renderer {
                         int startTime = Integer.parseInt(fields[i]);
                         i++;
                         String colors = fields[i];
+/*
                         i++;
                         String startAngle = fields[i];
                         i++;
                         String turnAngle = fields[i];
-                        i++;
+*/
+
                         String[] rgbStr = colors.split(",");
 
                         float red = Float.parseFloat(rgbStr[0]);
@@ -218,9 +190,9 @@ public class GameRenderer implements GLSurfaceView.Renderer {
                         square.blueColor = blue;
                         square.startTime = startTime;
 
-                        square.xc = 400f;
+                        square.xc = 400;
                         square.yc = levelStartY;
-                        levelStartY += 15f;
+                        levelStartY += 15;
                         square.angle = 75;
                         square.setWayPoints(wayPoints);
                         square.initOrigin();
@@ -238,6 +210,65 @@ public class GameRenderer implements GLSurfaceView.Renderer {
         }
 
         catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+
+    /*
+    *
+    */
+
+    void loadWayPoints() {
+        String[] fields = new String[10];
+        int nCol;
+        int i;
+        try {
+
+            InputStream is = context.getAssets().open("level1WayPoints.txt");
+
+            Scanner scanner = new Scanner(is);
+            while (scanner.hasNextLine()) {
+                String line = scanner.nextLine();
+                if (!line.startsWith("#")) {  // Skip
+                    Scanner lineScanner = new Scanner(line);
+                    lineScanner.useDelimiter("\\|");
+                    nCol = 0;
+                    fields[nCol] = lineScanner.next();
+
+                    nCol++;
+                    while (lineScanner.hasNext()) { // At this point we know we want the line
+
+                        fields[nCol] = lineScanner.next();
+//                    Log.i("=========== FOO", fields[nCol] + ",");
+                        nCol++;
+                    }
+
+                    i = 0;
+                    int seqNo = Integer.parseInt(fields[i]);
+                    i++;
+                    int x = Integer.parseInt(fields[i]);
+                    i++;
+                    int y = Integer.parseInt(fields[i]);
+                    i++;
+                    int dx = Integer.parseInt(fields[i]);
+                    i++;
+                    int dy = Integer.parseInt(fields[i]);
+//                    i++;
+
+                    WayPoint wp = new WayPoint(seqNo, x, y, dx, dy);
+
+
+                    wayPoints.add(wp);
+                }
+            }
+
+        } catch (FileNotFoundException e) {
+
+            e.printStackTrace();
+
+        } catch (IOException e) {
             e.printStackTrace();
         }
 

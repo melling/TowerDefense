@@ -22,7 +22,7 @@ public class GameActivity extends Activity {
     private GLSurfaceView surfaceProAndroid;
     //
     private PolygonRenderer renderer;
-    private GLRenderer renderer1;
+//    private GLRenderer renderer1;
 
     /**
      * Called when the activity is first created.

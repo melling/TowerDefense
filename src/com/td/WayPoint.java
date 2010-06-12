@@ -12,7 +12,7 @@ public class WayPoint {
     public WayPoint () {
     	
     }
-    public WayPoint(int wayPointNumber, float x, float y, float dx, float dy) {
+    public WayPoint(int wayPointNumber, int x, int y, int dx, int dy) {
         this.wayPointNumber = wayPointNumber;
         this.x = x;
         this.y = y;
@@ -20,8 +20,8 @@ public class WayPoint {
         this.dy = dy;
     }
 
-    float x;
-    float y;
-    float dx;
-    float dy;
+    int x;
+    int y;
+    int dx;
+    int dy;
 }
