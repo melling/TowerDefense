@@ -28,6 +28,7 @@ public class GameRenderer implements GLSurfaceView.Renderer {
     private Context context;
 
     private List<Square> enemyUnits;
+    private List<Circle>circleUnits;
 
     private List<WayPoint> wayPoints;
 
@@ -35,6 +36,7 @@ public class GameRenderer implements GLSurfaceView.Renderer {
     private long gameTime;
     private long gameStartTime;
     private long normalizedGameTime;
+    private Circle circle;
 
     /*
     * @param context - Our app context
@@ -90,6 +92,12 @@ public class GameRenderer implements GLSurfaceView.Renderer {
 //            Log.i("onDraw", "" + i);
             //square.draw(gl);
             e.draw(gl, move, normalizedGameTime);
+
+        }
+        
+        for (Circle cir : circleUnits) {
+            Log.i("onDrawCircle", "onDrawCircle");
+            cir.draw(gl, move, gameTime);
 
         }
         // gl.glPopMatrix();
@@ -198,6 +206,19 @@ public class GameRenderer implements GLSurfaceView.Renderer {
                         square.initOrigin();
                         enemyUnits.add(square);
                     } else if (fields[0].startsWith("Circle")) {
+                    	
+//                    	int startTime = Integer.parseInt(fields[i]);
+//                         i++;
+//                         String colors = fields[i];
+//                         i++;
+//                         String startAngle = fields[i];
+//                         i++;
+//                         String turnAngle = fields[i];
+//                         i++;
+//                         String[] rgbStr = colors.split(",");
+                    	
+                    	circle = new Circle(0,levelStartY,0,1,30);
+                    	circle.setWayPoints(wayPoints);
 
                     }
                 }
