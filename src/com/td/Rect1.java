@@ -11,16 +11,16 @@ import android.util.Log;
 
 /**
  * This class is an object representation of
- * a Square containing the vertex information
+ * a Rect1 containing the vertex information
  * and drawing functionality, which is called
  * by the renderer.
  *
  * @author Savas Ziplies (nea/INsanityDesign)
  */
 
-public class Square {
+public class Rect1 {
 
-    private String TAG = "Square";
+    private String TAG = "Rect1";
     /**
      * The buffer holding the vertices
      */
@@ -44,21 +44,21 @@ public class Square {
     float qWidth = 5f;
 
     private float vertices[] = {
-            -qWidth, -qWidth, //Bottom Left
-            qWidth, -qWidth,     //Bottom Right
-            -qWidth, qWidth,     //Top Left
-            qWidth, qWidth     //Top Right
+            0, 0, //Bottom Left
+            20, 0,     //Bottom Right
+            2, 0,     //Top Left
+            2, 20     //Top Right
     };
     private int dx;
     private int dy;
     public int startTime;
 
     /**
-     * The Square constructor.
+     * The Rect1 constructor.
      * <p/>
      * Initiate the buffers.
      */
-    public Square() {
+    public Rect1() {
         //
         ByteBuffer byteBuf = ByteBuffer.allocateDirect(vertices.length * 4);
         byteBuf.order(ByteOrder.nativeOrder());
@@ -88,7 +88,7 @@ public class Square {
 
         //Set the face rotation
         gl.glPushMatrix();
-        gl.glTranslatef(xc, yc, 0f);
+        gl.glTranslatef(xc, yc, -4.0f);
         gl.glRotatef(angle, 0, 0, 1);
         if (startTime > normalizedGameTime) {
             Log.i(TAG, "Not time to move yet: " + startTime + ">" + normalizedGameTime);
@@ -147,7 +147,7 @@ public class Square {
 
     public void nextWayPoint() {
         int nWayPoints = wayPoints.size();
-        Log.i("Square", "Moving from wayPoint: " + currentWayPoint + "=>" + (currentWayPoint + 1) + " T:" + nWayPoints);
+        Log.i("Rect1", "Moving from wayPoint: " + currentWayPoint + "=>" + (currentWayPoint + 1) + " T:" + nWayPoints);
         if ((currentWayPoint + 1) < nWayPoints) {
             WayPoint wayPoint0 = wayPoints.get(currentWayPoint);
             WayPoint wayPoint1 = wayPoints.get(currentWayPoint + 1);
@@ -155,7 +155,7 @@ public class Square {
             dy = wayPoint0.dy;
             nextWayPointX = wayPoint1.x;
             nextWayPointY = wayPoint1.y;
-            Log.i("Square", "(x,y,dx,dy)=>("
+            Log.i("Rect1", "(x,y,dx,dy)=>("
                     + nextWayPointX + ","
                     + nextWayPointY + ","
                     + dx + ","

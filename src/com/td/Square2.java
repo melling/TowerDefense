@@ -18,7 +18,7 @@ import android.util.Log;
  * @author Savas Ziplies (nea/INsanityDesign)
  */
 
-public class Square {
+public class Square2 {
 
     private String TAG = "Square";
     /**
@@ -42,12 +42,27 @@ public class Square {
      * The initial vertex definition
      */
     float qWidth = 5f;
+    float qWidth2 = 20f;
 
     private float vertices[] = {
             -qWidth, -qWidth, //Bottom Left
             qWidth, -qWidth,     //Bottom Right
             -qWidth, qWidth,     //Top Left
-            qWidth, qWidth     //Top Right
+            qWidth, qWidth,     //Top Right
+            0, 0,     //Bottom Left
+            qWidth2, 0,     //Bottom Right
+            0, qWidth2,     //Top Left
+            qWidth2, qWidth2, // Top Right
+
+            qWidth2, qWidth2, // Bottom Left
+            qWidth2 * 2, qWidth2, // Bottom Right
+            qWidth2, qWidth2 * 2, // /Top Left
+            qWidth2 * 2, qWidth2 * 2, // Top Right
+
+            qWidth2 * 2, qWidth2 * 2, // Bottom Left
+            qWidth2 * 6, qWidth2 * 2, // Bottom Right
+            qWidth2 * 2, qWidth2 * 6, // /Top Left
+            qWidth2 * 6, qWidth2 * 6 // Top Right
     };
     private int dx;
     private int dy;
@@ -58,7 +73,7 @@ public class Square {
      * <p/>
      * Initiate the buffers.
      */
-    public Square() {
+    public Square2() {
         //
         ByteBuffer byteBuf = ByteBuffer.allocateDirect(vertices.length * 4);
         byteBuf.order(ByteOrder.nativeOrder());
@@ -88,7 +103,7 @@ public class Square {
 
         //Set the face rotation
         gl.glPushMatrix();
-        gl.glTranslatef(xc, yc, 0f);
+        gl.glTranslatef(xc, yc, 0);
         gl.glRotatef(angle, 0, 0, 1);
         if (startTime > normalizedGameTime) {
             Log.i(TAG, "Not time to move yet: " + startTime + ">" + normalizedGameTime);
@@ -173,6 +188,7 @@ public class Square {
     /*
      *
      */
+
     public void initOrigin() {
         currentWayPoint = 0;
         nextWayPoint();

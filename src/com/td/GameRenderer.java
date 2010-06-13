@@ -37,6 +37,11 @@ public class GameRenderer implements GLSurfaceView.Renderer {
     private long gameStartTime;
     private long normalizedGameTime;
     private Circle circle;
+    Path2 path;
+    private Square2 square2;
+    private Square2 square3;
+    private Rect1 rect1;
+
 
     /*
     * @param context - Our app context
@@ -61,6 +66,19 @@ public class GameRenderer implements GLSurfaceView.Renderer {
 
         gl.glHint(GL10.GL_PERSPECTIVE_CORRECTION_HINT, GL10.GL_NICEST);
 
+        path = new Path2();
+        square2 = new Square2();
+        square2.xc = 150;
+        square2.yc = 150;
+
+        square3 = new Square2();
+        square3.xc = 350;
+        square3.yc = 350;
+
+        rect1 = new Rect1();
+        rect1.xc = 200;
+        rect1.yc = 400;
+        
         wayPoints = new ArrayList<WayPoint>();
         enemyUnits = new ArrayList<Square>();
         circleUnits = new ArrayList<Circle>();
@@ -71,6 +89,10 @@ public class GameRenderer implements GLSurfaceView.Renderer {
     }
 
     public void onDrawFrame(GL10 gl) {
+
+        float _red = 0.5f;
+        float _green = 0.5f;
+        float _blue = 1f;
 
         long currentTime = System.currentTimeMillis();
         normalizedGameTime = (currentTime - gameStartTime) / 1000; // Time in seconds
@@ -85,17 +107,20 @@ public class GameRenderer implements GLSurfaceView.Renderer {
 
         }
 
-
+        gl.glClearColor(_red, _green, _blue, 1);
         gl.glClear(GL10.GL_COLOR_BUFFER_BIT | GL10.GL_DEPTH_BUFFER_BIT);
         gl.glLoadIdentity();
-
+        path.draw(gl);
         for (Square e : enemyUnits) {
 //            Log.i("onDraw", "" + i);
             //square.draw(gl);
             e.draw(gl, move, normalizedGameTime);
 
         }
-        
+        square2.draw(gl, move, normalizedGameTime);
+        square3.draw(gl, move, normalizedGameTime);
+        rect1.draw(gl, move, normalizedGameTime);
+
         for (Circle cir : circleUnits) {
             Log.i("onDrawCircle", "onDrawCircle");
             cir.draw(gl, move, gameTime);
@@ -122,7 +147,8 @@ public class GameRenderer implements GLSurfaceView.Renderer {
         gl.glLoadIdentity();
 
         Log.d("SpriteRenderer", width + "x" + height);
-        GLU.gluOrtho2D(gl, 0, 480, 0, 320);
+        GLU.gluOrtho2D(gl, 0, 480, 0, 800);
+//        GLU.gluOrtho2D(gl, 0, 480, 0, 320);
         gl.glMatrixMode(GL10.GL_MODELVIEW);
         gl.glLoadIdentity();
 
@@ -207,8 +233,8 @@ public class GameRenderer implements GLSurfaceView.Renderer {
                         square.initOrigin();
                         enemyUnits.add(square);
                     } else if (fields[0].startsWith("Circle")) {
-                    	
-                    	
+
+
 //                    	int startTime = Integer.parseInt(fields[i]);
 //                         i++;
 //                         String colors = fields[i];
@@ -218,18 +244,16 @@ public class GameRenderer implements GLSurfaceView.Renderer {
 //                         String turnAngle = fields[i];
 //                         i++;
 //                         String[] rgbStr = colors.split(",");
-                    	
-                    	circle = new Circle(0,0,0,1,30);
-                    	circle.setWayPoints(wayPoints);
-                    	circleUnits.add(circle);
+
+                        circle = new Circle(50, 50, 1, 50, 30);
+                        circle.setWayPoints(wayPoints);
+                        circleUnits.add(circle);
 
                     }
                 }
             }
 
-        }
-
-        catch (FileNotFoundException e) {
+        } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
 
