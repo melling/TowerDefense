@@ -36,7 +36,7 @@ public class GameRenderer implements GLSurfaceView.Renderer {
     private long gameTime;
     private long gameStartTime;
     private long normalizedGameTime;
-    private Circle circle;
+//    private Circle circle;
     Path2 path;
     private Square2 square2;
     private Square2 square3;
@@ -78,7 +78,7 @@ public class GameRenderer implements GLSurfaceView.Renderer {
         rect1 = new Rect1();
         rect1.xc = 200;
         rect1.yc = 400;
-        
+
         wayPoints = new ArrayList<WayPoint>();
         enemyUnits = new ArrayList<Square>();
         circleUnits = new ArrayList<Circle>();
@@ -110,7 +110,13 @@ public class GameRenderer implements GLSurfaceView.Renderer {
         gl.glClearColor(_red, _green, _blue, 1);
         gl.glClear(GL10.GL_COLOR_BUFFER_BIT | GL10.GL_DEPTH_BUFFER_BIT);
         gl.glLoadIdentity();
-        path.draw(gl);
+//        path.draw(gl);
+        for (Circle cir : circleUnits) {
+            Log.i("onDrawCircle", "onDrawCircle");
+            cir.draw(gl, move, gameTime);
+
+        }
+
         for (Square e : enemyUnits) {
 //            Log.i("onDraw", "" + i);
             //square.draw(gl);
@@ -121,11 +127,7 @@ public class GameRenderer implements GLSurfaceView.Renderer {
         square3.draw(gl, move, normalizedGameTime);
         rect1.draw(gl, move, normalizedGameTime);
 
-        for (Circle cir : circleUnits) {
-            Log.i("onDrawCircle", "onDrawCircle");
-            cir.draw(gl, move, gameTime);
 
-        }
         // gl.glPopMatrix();
         try {
             Thread.sleep(200);
@@ -150,6 +152,7 @@ public class GameRenderer implements GLSurfaceView.Renderer {
         GLU.gluOrtho2D(gl, 0, 480, 0, 800);
 //        GLU.gluOrtho2D(gl, 0, 480, 0, 320);
         gl.glMatrixMode(GL10.GL_MODELVIEW);
+//         gl.glEnable(GL10.GL_DEPTH_TEST);
         gl.glLoadIdentity();
 
 
@@ -245,9 +248,18 @@ public class GameRenderer implements GLSurfaceView.Renderer {
 //                         i++;
 //                         String[] rgbStr = colors.split(",");
 
-                        circle = new Circle(50, 50, 1, 50, 30);
+                        Circle circle = new Circle(10, 30, 1, 50, 30);
                         circle.setWayPoints(wayPoints);
                         circleUnits.add(circle);
+
+                        circle = new Circle(20, 70, 1, 50, 30);
+                        circle.setWayPoints(wayPoints);
+                        circleUnits.add(circle);
+
+                        circle = new Circle(30, 130, 1, 50, 30);
+                        circle.setWayPoints(wayPoints);
+                        circleUnits.add(circle);
+
 
                     }
                 }

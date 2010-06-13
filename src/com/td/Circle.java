@@ -1,22 +1,13 @@
 package com.td;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
 import java.nio.ShortBuffer;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Scanner;
 
 import javax.microedition.khronos.opengles.GL10;
 
-import android.content.Context;
-import android.opengl.GLSurfaceView;
-import android.opengl.GLU;
 import android.os.SystemClock;
 import android.util.Log;
 
@@ -36,7 +27,7 @@ public class Circle {
     private float[] tarray = null;
 
     // Number of points or vertices we want to use
-    private final static int VERTS = 20;
+//    private final static int VERTS = 20;
 
     // A raw native buffer to hold the point coordinates
     private FloatBuffer mFVertexBuffer;
@@ -53,7 +44,7 @@ public class Circle {
     double nextWayPointX;
     double nextWayPointY;
 
-    boolean isVisible = false;
+//    boolean isVisible = false;
     List<WayPoint> wayPoints;
     int currentWayPoint = 0;
 
@@ -72,14 +63,14 @@ public class Circle {
 
     public void draw(GL10 gl, boolean move, long gameTime) {
         gl.glPushMatrix();
-        //     gl.glTranslatef(xc, yc, -4.0f);
 
         cx = cx + 2;
-        // cy=cy+0.02f;
+
         float dispx = cx;
         float dispy = cy;
-        gl.glTranslatef(this.cx, this.cy, 0);
+        gl.glTranslatef(this.cx, this.cy, 0f);
         Log.i("COORDINATES", dispx + " X  Y ::" + dispy);
+        Log.i("COORDINATES", cx + " X  Y ::" + cy);
 //		GLU.gluLookAt(gl, 0, 0, -5, 0f, 0f, 0f, 0f, 1.0f, 0.0f);
 //		gl.glEnableClientState(GL10.GL_VERTEX_ARRAY);
         long curtime = SystemClock.uptimeMillis();
@@ -112,14 +103,17 @@ public class Circle {
 
 
         }
-        this.prepareBuffers(this.cx, this.cy, this.cz, radius, sides);
+        gl.glEnableClientState(GL10.GL_VERTEX_ARRAY);
+
+        prepareBuffers(this.cx, this.cy, this.cz, radius, sides);
         // EvenPolygon.test();
-        // gl.glColor4f(1.0f, 0, 0, 0.3f);
-        gl.glColor4f(1.0f, 0.5f, 0.5f, 0.3f);
+        gl.glColor4f(1.0f, 0f, 0f, 1f);
         gl.glVertexPointer(3, GL10.GL_FLOAT, 0, mFVertexBuffer);
 //		gl.glFrontFace(GL10.GL_CW);
         gl.glDrawElements(GL10.GL_TRIANGLES, this.numOfIndices,
                 GL10.GL_UNSIGNED_SHORT, mIndexBuffer);
+        gl.glDisableClientState(GL10.GL_VERTEX_ARRAY);
+        
         gl.glPopMatrix();
     }
 
@@ -233,12 +227,12 @@ public class Circle {
         mFVertexBuffer.put(cy); // y
         mFVertexBuffer.put(0.0f); // z
 
-        int totalPuts = 3;
+//        int totalPuts = 3;
         for (int i = 0; i < sides; i++) {
             mFVertexBuffer.put(xarray[i]); // x
             mFVertexBuffer.put(yarray[i]); // y
             mFVertexBuffer.put(0.0f); // z
-            totalPuts += 3;
+//            totalPuts += 3;
         }
         // Log.d("total puts:", Integer.toString(totalPuts));
         return mFVertexBuffer;
@@ -247,29 +241,29 @@ public class Circle {
     // **********************************************
     // Convert texture buffer to an nio buffer
     // **********************************************
-    public FloatBuffer getTextureBuffer() {
-        int vertices = sides + 1;
-        int coordinates = 2;
-        int floatsize = 4;
-        int spacePerVertex = coordinates * floatsize;
-
-        ByteBuffer vbb = ByteBuffer.allocateDirect(spacePerVertex * vertices);
-        vbb.order(ByteOrder.nativeOrder());
-
-        FloatBuffer mFTextureBuffer = vbb.asFloatBuffer();
-
-        // Put the first coordinate (x,y (s,t):0,0)
-        mFTextureBuffer.put(2f); // x or s
-        mFTextureBuffer.put(2f); // y or t
-        int totalPuts = 2;
-        for (int i = 0; i < sides; i++) {
-            mFTextureBuffer.put(sarray[i]); // x
-            mFTextureBuffer.put(tarray[i]); // y
-            totalPuts += 2;
-        }
-        // Log.d("total texture puts:", Integer.toString(totalPuts));
-        return mFTextureBuffer;
-    }
+//    public FloatBuffer getTextureBuffer() {
+//        int vertices = sides + 1;
+//        int coordinates = 2;
+//        int floatsize = 4;
+//        int spacePerVertex = coordinates * floatsize;
+//
+//        ByteBuffer vbb = ByteBuffer.allocateDirect(spacePerVertex * vertices);
+//        vbb.order(ByteOrder.nativeOrder());
+//
+//        FloatBuffer mFTextureBuffer = vbb.asFloatBuffer();
+//
+//        // Put the first coordinate (x,y (s,t):0,0)
+//        mFTextureBuffer.put(2f); // x or s
+//        mFTextureBuffer.put(2f); // y or t
+//        int totalPuts = 2;
+//        for (int i = 0; i < sides; i++) {
+//            mFTextureBuffer.put(sarray[i]); // x
+//            mFTextureBuffer.put(tarray[i]); // y
+//            totalPuts += 2;
+//        }
+//        // Log.d("total texture puts:", Integer.toString(totalPuts));
+//        return mFTextureBuffer;
+//    }
 
     // **********************************************
     // Calculate indices forming multiple triangles.
