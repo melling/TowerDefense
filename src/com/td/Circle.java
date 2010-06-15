@@ -18,7 +18,12 @@ public class Circle {
     // Space to hold (x,y,z) of the center: xc,yc,cz
     // and the radius "radiusOfCircle"
     private float xc, yc, cz, radiusOfCircle;
-    private int sides;
+
+    public void setSides(int sides) {
+        this.sides = sides;
+    }
+
+    private int sides=30;
 
     // coordinate array: (x,y) vertex points
     private float[] xarray = null;
@@ -76,12 +81,12 @@ public class Circle {
 
         if ((curtime - prevtime) > 200) {
             prevtime = curtime;
-            sides += 1;
-            if (sides > 50) {
-                sides = 3;
-            }
+//            sides += 1;
+//            if (sides > 50) {
+//                sides = 3;
+//            }
 
-
+//            sides=3;
             if (move) {
              //   angle += 25;
                 yc = yc + dy;

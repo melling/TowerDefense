@@ -130,7 +130,7 @@ public class GameRenderer implements GLSurfaceView.Renderer {
 
         // gl.glPopMatrix();
         try {
-            Thread.sleep(200);
+            Thread.sleep(100);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -242,6 +242,16 @@ public class GameRenderer implements GLSurfaceView.Renderer {
                         Circle circle = new Circle(200, levelStartY, 1, 8, 30);
 
                         circle.setWayPoints(wayPoints);
+                        circle.initOrigin();
+                        circleUnits.add(circle);
+
+                        levelStartY += 15;
+
+                    } else if (fields[0].startsWith("Triangle")) {
+                        Circle circle = new Circle(200, levelStartY, 1, 8, 30);
+
+                        circle.setWayPoints(wayPoints);
+                        circle.setSides(3);
                         circle.initOrigin();
                         circleUnits.add(circle);
 
