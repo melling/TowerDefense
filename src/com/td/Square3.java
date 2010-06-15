@@ -11,24 +11,24 @@ import android.util.Log;
 
 /**
  * This class is an object representation of
- * a Square containing the vertex information
+ * a Square3 containing the vertex information
  * and drawing functionality, which is called
  * by the renderer.
  *
  * @author Savas Ziplies (nea/INsanityDesign)
  */
 
-public class Square2 {
+public class Square3 {
 
-    private String TAG = "Square";
+    private String TAG = "Square3";
     /**
      * The buffer holding the vertices
      */
     private FloatBuffer vertexBuffer;
     public int yc = -1;
     public int xc = 1;
-    public float redColor = 1.0f;
-    public float blueColor = 0.5f;
+    public float redColor = 0.0f;
+    public float blueColor = 0.0f;
     public float greenColor = 0.5f;
     public float angle = 0;
 
@@ -42,39 +42,23 @@ public class Square2 {
      * The initial vertex definition
      */
     float qWidth = 5f;
-    float qWidth2 = 20f;
 
     private float vertices[] = {
-            -qWidth, -qWidth, //Bottom Left
-            qWidth, -qWidth,     //Bottom Right
-            -qWidth, qWidth,     //Top Left
-            qWidth, qWidth,     //Top Right
-            0, 0,     //Bottom Left
-            qWidth2, 0,     //Bottom Right
-            0, qWidth2,     //Top Left
-            qWidth2, qWidth2, // Top Right
-
-            qWidth2, qWidth2, // Bottom Left
-            qWidth2 * 2, qWidth2, // Bottom Right
-            qWidth2, qWidth2 * 2, // /Top Left
-            qWidth2 * 2, qWidth2 * 2 // Top Right
- /*
-            qWidth2 * 2, qWidth2 * 2, // Bottom Left
-            qWidth2 * 6, qWidth2 * 2, // Bottom Right
-            qWidth2 * 2, qWidth2 * 6, // /Top Left
-            qWidth2 * 6, qWidth2 * 6 // Top Right
-            */
+            0, 0, //Bottom Left
+            480, 0,     //Bottom Right
+            0, 780,     //Top Left
+            480, 780     //Top Right
     };
     private int dx;
     private int dy;
     public int startTime;
 
     /**
-     * The Square constructor.
+     * The Square3 constructor.
      * <p/>
      * Initiate the buffers.
      */
-    public Square2() {
+    public Square3() {
         //
         ByteBuffer byteBuf = ByteBuffer.allocateDirect(vertices.length * 4);
         byteBuf.order(ByteOrder.nativeOrder());
@@ -100,45 +84,18 @@ public class Square2 {
      */
     public void draw(GL10 gl, boolean move, long normalizedGameTime) {
 
-        if (!isAlive) return; // TODO: Just make sure object is removed
+	//        if (!isAlive) return; // TODO: Just make sure object is removed
 
         //Set the face rotation
         gl.glPushMatrix();
-        gl.glTranslatef(xc, yc, 0);
-        gl.glRotatef(angle, 0, 0, 1);
+        gl.glTranslatef(10, 10, 0f);
+	//        gl.glRotatef(angle, 0, 0, 1);
         if (startTime > normalizedGameTime) {
             Log.i(TAG, "Not time to move yet: " + startTime + ">" + normalizedGameTime);
         }
 //        if (move && (startTime > normalizedGameTime)) {
-        if (move) {
-            angle += 10;
-            yc = yc + dy;
-            xc = xc + dx;
-            if (dy > 0 && dx == 0) { // Moving Up
-                if (yc >= nextWayPointY) {
-                    nextWayPoint();
-                }
-
-            } else if (dy == 0 && dx < 0) {  // Moving Left
-                if (xc <= nextWayPointX) {
-                    nextWayPoint();
-                }
-            } else if (dy < 0 && dx == 0) {  // Moving down
-                if (yc <= nextWayPointY) {
-                    nextWayPoint();
-                }
-            } else if (dy == 0 && dx > 0) {  // Moving right
-                if (xc >= nextWayPointY) {
-                    nextWayPoint();
-                }
-            } else if (dy <= 0 && dx > 0) {  // Moving diagonal to right
-
-            }
-        }
-
 //        Log.i("draw", xc + " , " + yc);
 //        gl.glScalef(0.05f, 0.05f, 1.0f);
-
 
         //Point to our vertex buffer
         gl.glVertexPointer(2, GL10.GL_FLOAT, 0, vertexBuffer);
@@ -163,7 +120,7 @@ public class Square2 {
 
     public void nextWayPoint() {
         int nWayPoints = wayPoints.size();
-        Log.i("Square", "Moving from wayPoint: " + currentWayPoint + "=>" + (currentWayPoint + 1) + " T:" + nWayPoints);
+        Log.i("Square3", "Moving from wayPoint: " + currentWayPoint + "=>" + (currentWayPoint + 1) + " T:" + nWayPoints);
         if ((currentWayPoint + 1) < nWayPoints) {
             WayPoint wayPoint0 = wayPoints.get(currentWayPoint);
             WayPoint wayPoint1 = wayPoints.get(currentWayPoint + 1);
@@ -171,7 +128,7 @@ public class Square2 {
             dy = wayPoint0.dy;
             nextWayPointX = wayPoint1.x;
             nextWayPointY = wayPoint1.y;
-            Log.i("Square", "(x,y,dx,dy)=>("
+            Log.i("Square3", "(x,y,dx,dy)=>("
                     + nextWayPointX + ","
                     + nextWayPointY + ","
                     + dx + ","
@@ -189,7 +146,6 @@ public class Square2 {
     /*
      *
      */
-
     public void initOrigin() {
         currentWayPoint = 0;
         nextWayPoint();

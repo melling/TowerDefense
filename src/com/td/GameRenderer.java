@@ -41,6 +41,7 @@ public class GameRenderer implements GLSurfaceView.Renderer {
     private Square2 square2;
     private Square2 square3;
     private Rect1 rect1;
+    Square3 backgroundSquare;
 
 
     /*
@@ -65,6 +66,8 @@ public class GameRenderer implements GLSurfaceView.Renderer {
         gl.glDepthFunc(GL10.GL_LEQUAL);
 
         gl.glHint(GL10.GL_PERSPECTIVE_CORRECTION_HINT, GL10.GL_NICEST);
+
+        backgroundSquare = new Square3();
 
         path = new Path2();
         square2 = new Square2();
@@ -110,6 +113,7 @@ public class GameRenderer implements GLSurfaceView.Renderer {
         gl.glClearColor(_red, _green, _blue, 1);
         gl.glClear(GL10.GL_COLOR_BUFFER_BIT | GL10.GL_DEPTH_BUFFER_BIT);
         gl.glLoadIdentity();
+        backgroundSquare.draw(gl,true,gameTime);
         path.draw(gl);
         for (Circle cir : circleUnits) {
             Log.i("onDrawCircle", "onDrawCircle");
