@@ -41,7 +41,7 @@ public class Rect1 {
     /**
      * The initial vertex definition
      */
-    float qWidth = 5f;
+//    float qWidth = 5f;
 
     private float vertices[] = {
             0, 0, //Bottom Left

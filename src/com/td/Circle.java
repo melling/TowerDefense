@@ -12,9 +12,9 @@ import android.os.SystemClock;
 import android.util.Log;
 
 public class Circle {
-    // Space to hold (x,y,z) of the center: cx,cy,cz
-    // and the radius "r"
-    private float cx, cy, cz, r;
+    // Space to hold (x,y,z) of the center: xc,yc,cz
+    // and the radius "radiusOfCircle"
+     float xc, yc, cz, radiusOfCircle;
     private int sides;
 
     // coordinate array: (x,y) vertex points
@@ -36,15 +36,15 @@ public class Circle {
     private ShortBuffer mIndexBuffer;
     private int numOfIndices = 0;
     private long prevtime = SystemClock.uptimeMillis();
-    private float radius = 20f;
+    private float radius = 100f;
 
-    private float dx;
-    private float dy;
+    private int dx;
+    private int dy;
 
     double nextWayPointX;
     double nextWayPointY;
 
-//    boolean isVisible = false;
+    //    boolean isVisible = false;
     List<WayPoint> wayPoints;
     int currentWayPoint = 0;
 
@@ -64,14 +64,10 @@ public class Circle {
     public void draw(GL10 gl, boolean move, long gameTime) {
         gl.glPushMatrix();
 
-        cx = cx + 2;
+        gl.glTranslatef(xc, yc, 0f);
 
-        float dispx = cx;
-        float dispy = cy;
-        gl.glTranslatef(this.cx, this.cy, 0f);
-        Log.i("COORDINATES", dispx + " X  Y ::" + dispy);
-        Log.i("COORDINATES", cx + " X  Y ::" + cy);
-//		GLU.gluLookAt(gl, 0, 0, -5, 0f, 0f, 0f, 0f, 1.0f, 0.0f);
+        Log.i("COORDINATES", xc + " X  Y ::" + yc);
+        Log.i("COORDINATES", xc + " X  Y ::" + yc);
 //		gl.glEnableClientState(GL10.GL_VERTEX_ARRAY);
         long curtime = SystemClock.uptimeMillis();
 
@@ -82,38 +78,45 @@ public class Circle {
                 sides = 3;
             }
 
+
             if (move) {
-                // angle += 25;
-                cy = cy + dy;
-                cx = cx + dx;
-                // nextWayPointY = 1.45;
-                if (dy > 0 && dx == 0f) { // Moving Up
-                    if (cy >= nextWayPointY) {
+             //   angle += 25;
+                yc = yc + dy;
+                xc = xc + dx;
+                if (dy > 0 && dx == 0) { // Moving Up
+                    if (yc >= nextWayPointY) {
                         nextWayPoint();
                     }
 
-                } else if (dy == 0 && dx < 0f) { // Moving Left
-                    if (cx <= nextWayPointX) {
+                } else if (dy == 0 && dx < 0) {  // Moving Left
+                    if (xc <= nextWayPointX) {
                         nextWayPoint();
                     }
-                } else if (dy <= 0f && dx > 0f) { // Moving diagonal to right
+                } else if (dy < 0 && dx == 0) {  // Moving down
+                    if (yc <= nextWayPointY) {
+                        nextWayPoint();
+                    }
+                } else if (dy == 0 && dx > 0) {  // Moving right
+                    if (xc >= nextWayPointY) {
+                        nextWayPoint();
+                    }
+                } else if (dy <= 0 && dx > 0) {  // Moving diagonal to right
 
                 }
             }
 
-
         }
         gl.glEnableClientState(GL10.GL_VERTEX_ARRAY);
 
-        prepareBuffers(this.cx, this.cy, this.cz, radius, sides);
+        prepareBuffers(this.xc, this.yc, this.cz, radius, sides);
         // EvenPolygon.test();
-        gl.glColor4f(1.0f, 0f, 0f, 1f);
+        gl.glColor4f(1.0f, 0f, 0f, 0.3f);
         gl.glVertexPointer(3, GL10.GL_FLOAT, 0, mFVertexBuffer);
 //		gl.glFrontFace(GL10.GL_CW);
         gl.glDrawElements(GL10.GL_TRIANGLES, this.numOfIndices,
                 GL10.GL_UNSIGNED_SHORT, mIndexBuffer);
         gl.glDisableClientState(GL10.GL_VERTEX_ARRAY);
-        
+
         gl.glPopMatrix();
     }
 
@@ -125,10 +128,11 @@ public class Circle {
                   int insides) // number of sides
     {
 
-        cx = incx;
-        cy = incy;
+        xc = incx;
+        yc = incy;
         cz = incz;
-        r = inr;
+        radiusOfCircle = inr;
+        radius = inr;
         sides = insides;
 
         // allocate memory for the arrays
@@ -166,7 +170,7 @@ public class Circle {
         // multiply the coordinate with radius (scale)
         for (int i = 0; i < sides; i++) {
             float curm = xmarray[i];
-            float xcoord = cx + r * curm;
+            float xcoord = xc + radiusOfCircle * curm;
             xarray[i] = xcoord;
         }
         this.printArray(xarray, "xarray");
@@ -174,7 +178,7 @@ public class Circle {
         // calc yarray: do the same for y coordinates
         for (int i = 0; i < sides; i++) {
             float curm = ymarray[i];
-            float ycoord = cy + r * curm;
+            float ycoord = yc + radiusOfCircle * curm;
             yarray[i] = ycoord;
         }
         this.printArray(yarray, "yarray");
@@ -214,8 +218,8 @@ public class Circle {
     public FloatBuffer getVertexBuffer() {
         int vertices = sides + 1;
         int coordinates = 3;
-        int floatsize = 4;
-        int spacePerVertex = coordinates * floatsize;
+        int floatSize = 4;
+        int spacePerVertex = coordinates * floatSize;
 
         ByteBuffer vbb = ByteBuffer.allocateDirect(spacePerVertex * vertices);
         vbb.order(ByteOrder.nativeOrder());
@@ -223,15 +227,15 @@ public class Circle {
         FloatBuffer mFVertexBuffer = vbb.asFloatBuffer();
 
         // Put the first coordinate (x,y,z:0,0,0)
-        mFVertexBuffer.put(cx); // x
-        mFVertexBuffer.put(cy); // y
-        mFVertexBuffer.put(0.0f); // z
+        mFVertexBuffer.put(xc); // x
+        mFVertexBuffer.put(yc); // y
+        mFVertexBuffer.put(0f); // z
 
 //        int totalPuts = 3;
         for (int i = 0; i < sides; i++) {
             mFVertexBuffer.put(xarray[i]); // x
             mFVertexBuffer.put(yarray[i]); // y
-            mFVertexBuffer.put(0.0f); // z
+            mFVertexBuffer.put(0f); // z
 //            totalPuts += 3;
         }
         // Log.d("total puts:", Integer.toString(totalPuts));
@@ -325,27 +329,27 @@ public class Circle {
     // **********************************************
     private float[] getYMultiplierArray() {
         float[] angleArray = getAngleArrays();
-        float[] ymultiplierArray = new float[sides];
+        float[] yMultiplierArray = new float[sides];
 
         for (int i = 0; i < angleArray.length; i++) {
             float curAngle = angleArray[i];
-            float sinvalue = (float) Math.sin(Math.toRadians(curAngle));
-            float absSinValue = Math.abs(sinvalue);
+            float sinValue = (float) Math.sin(Math.toRadians(curAngle));
+            float absSinValue = Math.abs(sinValue);
             if (isYPositiveQuadrant(curAngle)) {
-                sinvalue = absSinValue;
+                sinValue = absSinValue;
             } else {
-                sinvalue = -absSinValue;
+                sinValue = -absSinValue;
             }
-            ymultiplierArray[i] = this.getApproxValue(sinvalue);
+            yMultiplierArray[i] = this.getApproxValue(sinValue);
         }
 
-        this.printArray(ymultiplierArray, "ymultiplierArray");
-        return ymultiplierArray;
+        this.printArray(yMultiplierArray, "yMultiplierArray");
+        return yMultiplierArray;
     }
 
     // **********************************************
     // This function may not be needed
-    // Test it yourself and discard it if you dont need
+    // Test it yourself and discard it if you don't need
     // **********************************************
     private boolean isXPositiveQuadrant(float angle) {
         if ((0 <= angle) && (angle <= 90)) {
@@ -359,7 +363,7 @@ public class Circle {
 
     // **********************************************
     // This function may not be needed
-    // Test it yourself and discard it if you dont need
+    // Test it yourself and discard it if you don't need
     // **********************************************
     private boolean isYPositiveQuadrant(float angle) {
         if ((0 <= angle) && (angle <= 90)) {

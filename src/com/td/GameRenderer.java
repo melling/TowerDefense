@@ -110,7 +110,7 @@ public class GameRenderer implements GLSurfaceView.Renderer {
         gl.glClearColor(_red, _green, _blue, 1);
         gl.glClear(GL10.GL_COLOR_BUFFER_BIT | GL10.GL_DEPTH_BUFFER_BIT);
         gl.glLoadIdentity();
-//        path.draw(gl);
+        path.draw(gl);
         for (Circle cir : circleUnits) {
             Log.i("onDrawCircle", "onDrawCircle");
             cir.draw(gl, move, gameTime);
@@ -152,6 +152,7 @@ public class GameRenderer implements GLSurfaceView.Renderer {
         GLU.gluOrtho2D(gl, 0, 480, 0, 800);
 //        GLU.gluOrtho2D(gl, 0, 480, 0, 320);
         gl.glMatrixMode(GL10.GL_MODELVIEW);
+        gl.glDisable(GL10.GL_DEPTH_TEST);
 //         gl.glEnable(GL10.GL_DEPTH_TEST);
         gl.glLoadIdentity();
 
@@ -238,28 +239,12 @@ public class GameRenderer implements GLSurfaceView.Renderer {
                     } else if (fields[0].startsWith("Circle")) {
 
 
-//                    	int startTime = Integer.parseInt(fields[i]);
-//                         i++;
-//                         String colors = fields[i];
-//                         i++;
-//                         String startAngle = fields[i];
-//                         i++;
-//                         String turnAngle = fields[i];
-//                         i++;
-//                         String[] rgbStr = colors.split(",");
+                        Circle circle = new Circle(200, levelStartY, 1, 8, 30);
 
-                        Circle circle = new Circle(10, 30, 1, 50, 30);
                         circle.setWayPoints(wayPoints);
                         circleUnits.add(circle);
 
-                        circle = new Circle(20, 70, 1, 50, 30);
-                        circle.setWayPoints(wayPoints);
-                        circleUnits.add(circle);
-
-                        circle = new Circle(30, 130, 1, 50, 30);
-                        circle.setWayPoints(wayPoints);
-                        circleUnits.add(circle);
-
+                        levelStartY += 15;
 
                     }
                 }
