@@ -242,6 +242,7 @@ public class GameRenderer implements GLSurfaceView.Renderer {
                         Circle circle = new Circle(200, levelStartY, 1, 8, 30);
 
                         circle.setWayPoints(wayPoints);
+                        circle.initOrigin();
                         circleUnits.add(circle);
 
                         levelStartY += 15;

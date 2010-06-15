@@ -12,9 +12,12 @@ import android.os.SystemClock;
 import android.util.Log;
 
 public class Circle {
+
+    private String TAG = "Circle";
+
     // Space to hold (x,y,z) of the center: xc,yc,cz
     // and the radius "radiusOfCircle"
-     float xc, yc, cz, radiusOfCircle;
+    private float xc, yc, cz, radiusOfCircle;
     private int sides;
 
     // coordinate array: (x,y) vertex points
@@ -36,14 +39,15 @@ public class Circle {
     private ShortBuffer mIndexBuffer;
     private int numOfIndices = 0;
     private long prevtime = SystemClock.uptimeMillis();
-    private float radius = 100f;
+    private float radius;
 
     private int dx;
     private int dy;
 
     double nextWayPointX;
     double nextWayPointY;
-
+    boolean isAlive = true;
+   
     //    boolean isVisible = false;
     List<WayPoint> wayPoints;
     int currentWayPoint = 0;
@@ -66,7 +70,6 @@ public class Circle {
 
         gl.glTranslatef(xc, yc, 0f);
 
-        Log.i("COORDINATES", xc + " X  Y ::" + yc);
         Log.i("COORDINATES", xc + " X  Y ::" + yc);
 //		gl.glEnableClientState(GL10.GL_VERTEX_ARRAY);
         long curtime = SystemClock.uptimeMillis();
@@ -198,14 +201,16 @@ public class Circle {
         // calc xarray
         for (int i = 0; i < sides; i++) {
             float curm = xmarray[i];
-            float xcoord = 2f + 2f * curm;
+            float xcoord = 2f +  curm;
+//            float xcoord = 2f + 2f * curm;
             sarray[i] = xcoord;
         }
         this.printArray(sarray, "sarray");
         // calc yarray
         for (int i = 0; i < sides; i++) {
             float curm = ymarray[i];
-            float ycoord = 2f + 2f * curm;
+            float ycoord = 2f + curm;
+//            float ycoord = 2f + 2f * curm;
             tarray[i] = ycoord;
         }
         this.printArray(tarray, "tarray");
@@ -435,16 +440,34 @@ public class Circle {
         // Log.d(tag, sb.toString());
     }
 
-    public void nextWayPoint() {
-        Log.i("Square", "Moving from wayPoint: " + currentWayPoint + "=>"
-                + (currentWayPoint + 1));
-        WayPoint wayPoint0 = wayPoints.get(currentWayPoint);
-        WayPoint wayPoint1 = wayPoints.get(currentWayPoint + 1);
-        dx = wayPoint0.dx;
-        dy = wayPoint0.dy;
-        nextWayPointX = wayPoint1.x;
-        nextWayPointY = wayPoint1.y;
 
-        currentWayPoint++;
+    public void nextWayPoint() {
+        int nWayPoints = wayPoints.size();
+        Log.i("Square", "Moving from wayPoint: " + currentWayPoint + "=>" + (currentWayPoint + 1) + " T:" + nWayPoints);
+        if ((currentWayPoint + 1) < nWayPoints) {
+            WayPoint wayPoint0 = wayPoints.get(currentWayPoint);
+            WayPoint wayPoint1 = wayPoints.get(currentWayPoint + 1);
+            dx = wayPoint0.dx;
+            dy = wayPoint0.dy;
+            nextWayPointX = wayPoint1.x;
+            nextWayPointY = wayPoint1.y;
+            Log.i(TAG, "(x,y,dx,dy)=>("
+                    + nextWayPointX + ","
+                    + nextWayPointY + ","
+                    + dx + ","
+                    + dy + ")");
+
+            currentWayPoint++;
+        } else {
+            Log.i(TAG, "Unit reached the end of waypoints: "
+                    + (currentWayPoint + 1) + ">"
+                    + nWayPoints);
+            isAlive = false;
+        }
     }
+
+    public void initOrigin() {
+          currentWayPoint = 0;
+          nextWayPoint();
+    }    
 }
