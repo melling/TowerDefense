@@ -1,6 +1,7 @@
 package com.td;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
 import android.util.Log;
@@ -9,6 +10,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.Window;
 import com.pro.PolygonRenderer;
+
 
 /**
  * Created by IntelliJ IDEA.
@@ -20,6 +22,9 @@ public class GameActivity extends Activity {
 
     private GameGLSurfaceView surface;
     private GLSurfaceView surfaceProAndroid;
+   
+    
+  
     //
     private PolygonRenderer renderer;
 //    private GLRenderer renderer1;
@@ -49,9 +54,11 @@ public class GameActivity extends Activity {
             surfaceProAndroid.setRenderer(renderer);
 //             renderer.setContext(this);
             setContentView(surfaceProAndroid);
+            
 
         } else if (item.getItemId() == R.id.tower_defense) {
             Log.i("FOO", "Clicked TowerDefense");
+            
 //            surface1 = new GLSurfaceView(this);
             surface = new GameGLSurfaceView(this);
 //            renderer1 = new com.td.GameRenderer(this);
@@ -60,6 +67,17 @@ public class GameActivity extends Activity {
 //            surface.setRenderer(renderer1);
 //            renderer1.setContext(this);
             setContentView(surface);
+
+        }
+        
+        else if (item.getItemId() == R.id.mid_OpenGL_SimpleTriangle) {
+            //Tatyana's
+        	Log.i("Particals", "Particals");
+//             renderer.setContext(this);
+       // 	ParticleSystemDemo d = new ParticleSystemDemo();
+            Intent i = new Intent(this,ParticleSystemDemo.class);
+            startActivity(i);
+         //   setContentView(surfaceProAndroidi);
 
         }
         return true;
