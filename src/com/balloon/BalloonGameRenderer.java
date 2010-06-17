@@ -26,6 +26,7 @@ public class BalloonGameRenderer implements GLSurfaceView.Renderer {
 
     private static final String TAG = "GameRenderer";
     private Context context;
+    private Player player;
 
     private List<Balloon> balloons;
 //    private List<Circle> circleUnits;
@@ -72,6 +73,14 @@ public class BalloonGameRenderer implements GLSurfaceView.Renderer {
 
         loadBalloonWayPoints("balloonLevel1WayPoints.txt"); // Must load wayPoints first
         loadBalloons("level1Balloons.txt");
+
+        player = new Player();
+        player.redColor = 0f;
+        player.greenColor = 1f;
+        player.blueColor = 0f;
+
+        player.xc = 100;
+        player.yc = 50;
         /* backgroundSquare = new Square3();
 
      path = new Path2();
@@ -115,7 +124,7 @@ public class BalloonGameRenderer implements GLSurfaceView.Renderer {
         gl.glLoadIdentity();
 
 //        backgroundSquare.draw(gl,true,gameTime);
-
+        player.draw(gl,true,gameTime);
         for (Balloon balloon : balloons) {
             balloon.draw(gl, move, normalizedGameTime);
 
@@ -324,7 +333,7 @@ public class BalloonGameRenderer implements GLSurfaceView.Renderer {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        
+
         Log.i(TAG, "# WayPoints loaded: " + wayPoints.size());
     }
 
