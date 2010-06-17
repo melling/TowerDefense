@@ -109,7 +109,7 @@ public class Square2 {
         if (startTime > normalizedGameTime) {
             Log.i(TAG, "Not time to move yet: " + startTime + ">" + normalizedGameTime);
         }
-//        if (move && (startTime > normalizedGameTime)) {
+//        if (move && (unitStartTime > normalizedGameTime)) {
         if (move) {
             angle += 10;
             yc = yc + dy;

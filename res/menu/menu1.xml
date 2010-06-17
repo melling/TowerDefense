@@ -2,33 +2,20 @@
 <menu
   xmlns:android="http://schemas.android.com/apk/res/android">
      <group android:id="@+id/menuGroup_Main">
-      <item android:id="@+id/mid_OpenGL_SimpleTriangle"
-      android:title="Tatyana Test" />
+      <item android:id="@+id/mid_OpenGL_SimpleTriangle" android:title="Tatyana Test" />
 
+      <item android:id="@+id/mid_square_polygon" android:title="Feras Test" />
 
-      <item android:id="@+id/mid_polygon"
-      android:title="polygon" />
-
-
-      <item android:id="@+id/mid_square_polygon"
-      android:title="Feras Test" />
-
-      <item android:id="@+id/tower_defense"
-      android:title="Tower Defense" />
+      <item android:id="@+id/tower_defense" android:title="Tower Defense" />
       
-
-      <item android:id="@+id/pro_android"
-      android:title="Pro Android2" />
+      <item android:id="@+id/pro_android" android:title="Pro Android2" />
       
-      <item android:id="@+id/mid_textured_square"      android:title="textured square" />
+      <item android:id="@+id/balloon_menu"      android:title="Balloons" />
 
-      <item android:id="@+id/mid_textured_polygon"
-      android:title="textured polygon" />
+      <item android:id="@+id/mid_textured_polygon" android:title="textured polygon" />
 
-      <item android:id="@+id/mid_OpenGL_Current"
-      android:title="Current" />
+      <item android:id="@+id/mid_OpenGL_Current" android:title="Current" />
 
-      <item android:id="@+id/menu_clear"
-      android:title="clear" />
+      <item android:id="@+id/menu_clear" android:title="clear" />
    </group>
 </menu>

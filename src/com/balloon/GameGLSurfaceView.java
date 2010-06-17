@@ -1,4 +1,4 @@
-package com.td;
+package com.balloon;
 
 import android.content.Context;
 import android.opengl.GLSurfaceView;
@@ -16,7 +16,7 @@ public class GameGLSurfaceView extends GLSurfaceView {
     public GameGLSurfaceView(Context context) {
         super(context);
 
-        renderer = new GameRenderer(context);
+        renderer = new BalloonGameRenderer(context);
         setRenderer(renderer);
     }
 

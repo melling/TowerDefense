@@ -93,7 +93,7 @@ public class Rect1 {
         if (startTime > normalizedGameTime) {
             Log.i(TAG, "Not time to move yet: " + startTime + ">" + normalizedGameTime);
         }
-//        if (move && (startTime > normalizedGameTime)) {
+//        if (move && (unitStartTime > normalizedGameTime)) {
         if (move) {
             angle += 25;
             yc = yc + dy;

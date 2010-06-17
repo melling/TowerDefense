@@ -18,12 +18,6 @@ import com.pro.PolygonRenderer;
  */
 public class GameActivity extends Activity {
 
-    private GameGLSurfaceView surface;
-    private GLSurfaceView surfaceProAndroid;
-    //
-    private PolygonRenderer renderer;
-//    private GLRenderer renderer1;
-
     /**
      * Called when the activity is first created.
      */
@@ -33,19 +27,19 @@ public class GameActivity extends Activity {
 
         requestWindowFeature(Window.FEATURE_NO_TITLE);
 
-        GLSurfaceView glSurface = new GameGLSurfaceView(this);
-        setContentView(glSurface);
+        setContentView(new com.balloon.GameGLSurfaceView(this)); // Set default game
     }
 
+    
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
         if (item.getItemId() == R.id.pro_android) {
             Log.i("FOO", "Clicked Pro Android II");
 //            surface = new GameGLSurfaceView(this);
-            surfaceProAndroid = new GLSurfaceView(this);
+            GLSurfaceView surfaceProAndroid = new GLSurfaceView(this);
             // renderer = new GLRenderer();
-            renderer = new com.pro.PolygonRenderer(this);
+            PolygonRenderer renderer = new PolygonRenderer(this);
             surfaceProAndroid.setRenderer(renderer);
 //             renderer.setContext(this);
             setContentView(surfaceProAndroid);
@@ -53,7 +47,7 @@ public class GameActivity extends Activity {
         } else if (item.getItemId() == R.id.tower_defense) {
             Log.i("FOO", "Clicked TowerDefense");
 //            surface1 = new GLSurfaceView(this);
-            surface = new GameGLSurfaceView(this);
+            GameGLSurfaceView surface = new GameGLSurfaceView(this);
 //            renderer1 = new com.td.GameRenderer(this);
 //            renderer1 = new GLRenderer();
 //             renderer = new PolygonRenderer(this);
@@ -61,6 +55,9 @@ public class GameActivity extends Activity {
 //            renderer1.setContext(this);
             setContentView(surface);
 
+        } else if (item.getItemId() == R.id.balloon_menu) {
+            Log.i("FOO", "Clicked Balloon");
+            setContentView(new com.balloon.GameGLSurfaceView(this));
         }
         return true;
     }
