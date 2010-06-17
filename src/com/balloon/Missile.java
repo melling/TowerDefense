@@ -11,16 +11,16 @@ import android.util.Log;
 
 /**
  * This class is an object representation of
- * a Square containing the vertex information
+ * a Missile containing the vertex information
  * and drawing functionality, which is called
  * by the renderer.
  *
  * @author Savas Ziplies (nea/INsanityDesign)
  */
 
-public class Balloon {
+public class Missile {
 
-    private String TAG = "Balloon";
+    private String TAG = "Missile";
     /**
      * The buffer holding the vertices
      */
@@ -28,8 +28,8 @@ public class Balloon {
     public int yc = -1;
     public int xc = 1;
     public float redColor = 0.0f;
-    public float blueColor = 0.0f;
-    public float greenColor = 0.5f;
+    public float blueColor = 1f;
+    public float greenColor = 0f;
     public float angle = 0;
 
     double nextWayPointX;
@@ -41,16 +41,17 @@ public class Balloon {
     /**
      * The initial vertex definition
      */
-    float qWidth = 25f;
+    float qWidth = 2f;
+    float qHeight = 5f;
 
     private float vertices[] = {
-            -qWidth, -qWidth, //Bottom Left
-            qWidth, -qWidth,     //Bottom Right
-            -qWidth, qWidth,     //Top Left
-            qWidth, qWidth     //Top Right
+            0, 0, //Bottom Left
+            qWidth, 0,     //Bottom Right
+            0, qHeight,     //Top Left
+            qWidth, qHeight     //Top Right
     };
     private int dx;
-    private int dy;
+    private int dy=5;
     public int unitStartTime;
 
     /**
@@ -58,7 +59,7 @@ public class Balloon {
      * <p/>
      * Initiate the buffers.
      */
-    public Balloon() {
+    public Missile() {
         //
         ByteBuffer byteBuf = ByteBuffer.allocateDirect(vertices.length * 4);
         byteBuf.order(ByteOrder.nativeOrder());
@@ -86,13 +87,13 @@ public class Balloon {
 
         if (!isAlive) return; // TODO: Just make sure object is removed
 
-        if (unitStartTime < normalizedGameTime) {
+//        if (unitStartTime < normalizedGameTime) {
 //            Log.i(TAG, "Time  to move yet: " + unitStartTime + "<" + normalizedGameTime);
-        } else {
-            move = false;
+//        } else {
+//            move = false;
 //            Log.i(TAG, "Unit waiting to move: " + unitStartTime + ">=" + normalizedGameTime);
-
-        }
+//
+//        }
         //Set the face rotation
 
 
@@ -102,25 +103,25 @@ public class Balloon {
             gl.glTranslatef(xc, yc, 0f);
             gl.glRotatef(angle, 0, 0, 1);
 //        if (move) {
-            angle += 25;
+//            angle += 25;
             yc = yc + dy;
-            xc = xc + dx;
+//            xc = xc + dx;
             if (dy > 0 && dx == 0) { // Moving Up
                 if (yc >= nextWayPointY) {
-                    nextWayPoint();
+//                    nextWayPoint();
                 }
 
             } else if (dy == 0 && dx < 0) {  // Moving Left
                 if (xc <= nextWayPointX) {
-                    nextWayPoint();
+//                    nextWayPoint();
                 }
             } else if (dy < 0 && dx == 0) {  // Moving down
                 if (yc <= nextWayPointY) {
-                    nextWayPoint();
+//                    nextWayPoint();
                 }
             } else if (dy == 0 && dx > 0) {  // Moving right
                 if (xc >= nextWayPointY) {
-                    nextWayPoint();
+//                    nextWayPoint();
                 }
             } else if (dy <= 0 && dx > 0) {  // Moving diagonal to right
 
@@ -147,52 +148,53 @@ public class Balloon {
         }
 
     }
+    
 
     /*
      *
      */
 
-    public void nextWayPoint() {
-        int nWayPoints = wayPoints.size();
-        Log.i("Square", "Moving from wayPoint: " + currentWayPoint + "=>" + (currentWayPoint + 1) + " T:" + nWayPoints);
-        if ((currentWayPoint + 1) < nWayPoints) {
-            WayPoint wayPoint0 = wayPoints.get(currentWayPoint);
-            WayPoint wayPoint1 = wayPoints.get(currentWayPoint + 1);
-            dx = wayPoint0.dx;
-            dy = wayPoint0.dy;
-            nextWayPointX = wayPoint1.x;
-            nextWayPointY = wayPoint1.y;
-            Log.i("Square", "(x,y,dx,dy)=>("
-                    + nextWayPointX + ","
-                    + nextWayPointY + ","
-                    + dx + ","
-                    + dy + ")");
-
-            currentWayPoint++;
-        } else {
-            Log.i(TAG, "Unit reached the end of waypoints: "
-                    + (currentWayPoint + 1) + ">"
-                    + nWayPoints);
-            isAlive = false;
-        }
-    }
-
-    /*
-     *
-     */
-
-    public void initOrigin() {
-        currentWayPoint = 0;
-        nextWayPoint();
-
-        /*WayPoint wayPoint0 = wayPoints.get(0);
-        WayPoint wayPoint1 = wayPoints.get(1);
-        dx = wayPoint0.dx;
-        dy = wayPoint0.dy;
-        nextWayPointX = wayPoint1.x;
-        nextWayPointY = wayPoint1.y;
-*/
-//        currentWayPoint = 1; // 0 is the origin, 1 is the first destination
-
-    }
+//    public void nextWayPoint() {
+//        int nWayPoints = wayPoints.size();
+//        Log.i("Square", "Moving from wayPoint: " + currentWayPoint + "=>" + (currentWayPoint + 1) + " T:" + nWayPoints);
+//        if ((currentWayPoint + 1) < nWayPoints) {
+//            WayPoint wayPoint0 = wayPoints.get(currentWayPoint);
+//            WayPoint wayPoint1 = wayPoints.get(currentWayPoint + 1);
+//            dx = wayPoint0.dx;
+//            dy = wayPoint0.dy;
+//            nextWayPointX = wayPoint1.x;
+//            nextWayPointY = wayPoint1.y;
+//            Log.i("Square", "(x,y,dx,dy)=>("
+//                    + nextWayPointX + ","
+//                    + nextWayPointY + ","
+//                    + dx + ","
+//                    + dy + ")");
+//
+//            currentWayPoint++;
+//        } else {
+//            Log.i(TAG, "Unit reached the end of waypoints: "
+//                    + (currentWayPoint + 1) + ">"
+//                    + nWayPoints);
+//            isAlive = false;
+//        }
+//    }
+//
+//    /*
+//     *
+//     */
+//
+//    public void initOrigin() {
+//        currentWayPoint = 0;
+//        nextWayPoint();
+//
+//        /*WayPoint wayPoint0 = wayPoints.get(0);
+//        WayPoint wayPoint1 = wayPoints.get(1);
+//        dx = wayPoint0.dx;
+//        dy = wayPoint0.dy;
+//        nextWayPointX = wayPoint1.x;
+//        nextWayPointY = wayPoint1.y;
+//*/
+////        currentWayPoint = 1; // 0 is the origin, 1 is the first destination
+//
+//    }
 }
