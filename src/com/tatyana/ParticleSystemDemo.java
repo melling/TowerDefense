@@ -1,4 +1,4 @@
-package com.td;
+package com.tatyana;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;

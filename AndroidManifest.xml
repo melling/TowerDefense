@@ -8,9 +8,9 @@
 				<category android:name="android.intent.category.LAUNCHER" />
 			</intent-filter>
 		</activity>
-		<activity android:name="ParticleSystemDemo"
+		<activity android:name="com.tatyana.ParticleSystemDemo"
 			android:label="@string/app_name">
 
-		</activity>
+  		</activity>
 	</application>
 </manifest>
