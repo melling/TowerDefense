@@ -20,6 +20,7 @@ import com.balloon.GameGLSurfaceView;
  */
 public class GameActivity extends Activity {
 
+<<<<<<< HEAD
 
     private GameGLSurfaceView surface;
     private GLSurfaceView surfaceProAndroid;
@@ -31,6 +32,8 @@ public class GameActivity extends Activity {
 //    private GLRenderer renderer1;
 
 
+=======
+>>>>>>> 3a78f8b1a4decc6a1209b59a1cdb694fc195ffe0
     /**
      * Called when the activity is first created.
      */
@@ -73,6 +76,7 @@ public class GameActivity extends Activity {
         } else if (item.getItemId() == R.id.balloon_menu) {
             Log.i("FOO", "Clicked Balloon");
             setContentView(new com.balloon.GameGLSurfaceView(this));
+<<<<<<< HEAD
         }
         
         else if (item.getItemId() == R.id.mid_OpenGL_SimpleTriangle) {
@@ -84,6 +88,8 @@ public class GameActivity extends Activity {
             startActivity(i);
          //   setContentView(surfaceProAndroidi);
 
+=======
+>>>>>>> 3a78f8b1a4decc6a1209b59a1cdb694fc195ffe0
         }
         return true;
     }
