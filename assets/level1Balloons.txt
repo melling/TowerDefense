@@ -1,0 +1,7 @@
+# UnitType|Start Time|R,G,B|start_angle|increment_angle|
+Square|1|1,0.5,0|25|25
+Square|5|1,1,0|50|25
+Square|9|1,0,1|75|25
+Square|15|1,0,1|75|25
+Square|25|1,0,1|75|25
+Square|35|1,0,1|75|25

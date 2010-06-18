@@ -1,4 +1,4 @@
-package com.td;
+package com.balloon;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
@@ -11,16 +11,16 @@ import android.util.Log;
 
 /**
  * This class is an object representation of
- * a Square3 containing the vertex information
+ * a Square containing the vertex information
  * and drawing functionality, which is called
  * by the renderer.
  *
  * @author Savas Ziplies (nea/INsanityDesign)
  */
 
-public class Square3 {
+public class Balloon {
 
-    private String TAG = "Square3";
+    private String TAG = "Balloon";
     /**
      * The buffer holding the vertices
      */
@@ -41,24 +41,24 @@ public class Square3 {
     /**
      * The initial vertex definition
      */
-    float qWidth = 5f;
+    float qWidth = 25f;
 
     private float vertices[] = {
-            0, 0, //Bottom Left
-            120, 0,     //Bottom Right
-            0, 780,     //Top Left
-            120, 780     //Top Right
+            -qWidth, -qWidth, //Bottom Left
+            qWidth, -qWidth,     //Bottom Right
+            -qWidth, qWidth,     //Top Left
+            qWidth, qWidth     //Top Right
     };
     private int dx;
     private int dy;
-    public int startTime;
+    public int unitStartTime;
 
     /**
-     * The Square3 constructor.
+     * The Square constructor.
      * <p/>
      * Initiate the buffers.
      */
-    public Square3() {
+    public Balloon() {
         //
         ByteBuffer byteBuf = ByteBuffer.allocateDirect(vertices.length * 4);
         byteBuf.order(ByteOrder.nativeOrder());
@@ -84,33 +84,67 @@ public class Square3 {
      */
     public void draw(GL10 gl, boolean move, long normalizedGameTime) {
 
-	//        if (!isAlive) return; // TODO: Just make sure object is removed
+        if (!isAlive) return; // TODO: Just make sure object is removed
 
-        //Set the face rotation
-        gl.glPushMatrix();
-        gl.glTranslatef(10, 10, 0f);
-	//        gl.glRotatef(angle, 0, 0, 1);
-        if (startTime > normalizedGameTime) {
-            Log.i(TAG, "Not time to move yet: " + startTime + ">" + normalizedGameTime);
+        if (unitStartTime < normalizedGameTime) {
+            Log.i(TAG, "Time  to move yet: " + unitStartTime + "<" + normalizedGameTime);
+        } else {
+            move = false;
+            Log.i(TAG, "Unit waiting to move: " + unitStartTime + ">=" + normalizedGameTime);
+
         }
-//        if (move && (unitStartTime > normalizedGameTime)) {
+        //Set the face rotation
+
+
+        if (move) {
+
+            gl.glPushMatrix();
+            gl.glTranslatef(xc, yc, 0f);
+            gl.glRotatef(angle, 0, 0, 1);
+//        if (move) {
+            angle += 25;
+            yc = yc + dy;
+            xc = xc + dx;
+            if (dy > 0 && dx == 0) { // Moving Up
+                if (yc >= nextWayPointY) {
+                    nextWayPoint();
+                }
+
+            } else if (dy == 0 && dx < 0) {  // Moving Left
+                if (xc <= nextWayPointX) {
+                    nextWayPoint();
+                }
+            } else if (dy < 0 && dx == 0) {  // Moving down
+                if (yc <= nextWayPointY) {
+                    nextWayPoint();
+                }
+            } else if (dy == 0 && dx > 0) {  // Moving right
+                if (xc >= nextWayPointY) {
+                    nextWayPoint();
+                }
+            } else if (dy <= 0 && dx > 0) {  // Moving diagonal to right
+
+            }
+
 //        Log.i("draw", xc + " , " + yc);
 //        gl.glScalef(0.05f, 0.05f, 1.0f);
 
-        //Point to our vertex buffer
-        gl.glVertexPointer(2, GL10.GL_FLOAT, 0, vertexBuffer);
 
-        //Enable vertex buffer
-        gl.glEnableClientState(GL10.GL_VERTEX_ARRAY);
+            //Point to our vertex buffer
+            gl.glVertexPointer(2, GL10.GL_FLOAT, 0, vertexBuffer);
 
-        //Set The Color To Blue
-        gl.glColor4f(redColor, greenColor, blueColor, 1);
+            //Enable vertex buffer
+            gl.glEnableClientState(GL10.GL_VERTEX_ARRAY);
 
-        //Draw the vertices as triangle strip
-        gl.glDrawArrays(GL10.GL_TRIANGLE_STRIP, 0, vertices.length / 2);
-        //Disable the client state before leaving
-        gl.glDisableClientState(GL10.GL_VERTEX_ARRAY);
-        gl.glPopMatrix();
+            //Set The Color To Blue
+            gl.glColor4f(redColor, greenColor, blueColor, 1);
+
+            //Draw the vertices as triangle strip
+            gl.glDrawArrays(GL10.GL_TRIANGLE_STRIP, 0, vertices.length / 2);
+            //Disable the client state before leaving
+            gl.glDisableClientState(GL10.GL_VERTEX_ARRAY);
+            gl.glPopMatrix();
+        }
 
     }
 
@@ -120,7 +154,7 @@ public class Square3 {
 
     public void nextWayPoint() {
         int nWayPoints = wayPoints.size();
-        Log.i("Square3", "Moving from wayPoint: " + currentWayPoint + "=>" + (currentWayPoint + 1) + " T:" + nWayPoints);
+        Log.i("Square", "Moving from wayPoint: " + currentWayPoint + "=>" + (currentWayPoint + 1) + " T:" + nWayPoints);
         if ((currentWayPoint + 1) < nWayPoints) {
             WayPoint wayPoint0 = wayPoints.get(currentWayPoint);
             WayPoint wayPoint1 = wayPoints.get(currentWayPoint + 1);
@@ -128,7 +162,7 @@ public class Square3 {
             dy = wayPoint0.dy;
             nextWayPointX = wayPoint1.x;
             nextWayPointY = wayPoint1.y;
-            Log.i("Square3", "(x,y,dx,dy)=>("
+            Log.i("Square", "(x,y,dx,dy)=>("
                     + nextWayPointX + ","
                     + nextWayPointY + ","
                     + dx + ","
@@ -146,6 +180,7 @@ public class Square3 {
     /*
      *
      */
+
     public void initOrigin() {
         currentWayPoint = 0;
         nextWayPoint();

@@ -1,4 +1,4 @@
-package com.td;
+package com.balloon;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
@@ -11,16 +11,16 @@ import android.util.Log;
 
 /**
  * This class is an object representation of
- * a Rect1 containing the vertex information
+ * a Player containing the vertex information
  * and drawing functionality, which is called
  * by the renderer.
  *
  * @author Savas Ziplies (nea/INsanityDesign)
  */
 
-public class Rect1 {
+public class Player {
 
-    private String TAG = "Rect1";
+    private String TAG = "Player";
     /**
      * The buffer holding the vertices
      */
@@ -36,29 +36,28 @@ public class Rect1 {
     double nextWayPointY;
     boolean isAlive = true;
 //    boolean isVisible = false;
-    List<WayPoint> wayPoints;
     int currentWayPoint = 0;
     /**
      * The initial vertex definition
      */
-//    float qWidth = 5f;
+    float qWidth = 15f;
 
     private float vertices[] = {
-            0, 0, //Bottom Left
-            20, 0,     //Bottom Right
-            2, 0,     //Top Left
-            2, 20     //Top Right
+            -qWidth, -qWidth, //Bottom Left
+            qWidth, -qWidth,     //Bottom Right
+            -qWidth, qWidth,     //Top Left
+            qWidth, qWidth     //Top Right
     };
     private int dx;
     private int dy;
     public int startTime;
 
     /**
-     * The Rect1 constructor.
+     * The Player constructor.
      * <p/>
      * Initiate the buffers.
      */
-    public Rect1() {
+    public Player() {
         //
         ByteBuffer byteBuf = ByteBuffer.allocateDirect(vertices.length * 4);
         byteBuf.order(ByteOrder.nativeOrder());
@@ -69,9 +68,6 @@ public class Rect1 {
 
     }
 
-    public void setWayPoints(List<WayPoint> wp) {
-        this.wayPoints = wp;
-    }
 
     /**
      * The object own drawing function.
@@ -88,14 +84,13 @@ public class Rect1 {
 
         //Set the face rotation
         gl.glPushMatrix();
-        gl.glTranslatef(xc, yc, -4.0f);
+        gl.glTranslatef(xc, yc, 0f);
         gl.glRotatef(angle, 0, 0, 1);
         if (startTime > normalizedGameTime) {
             Log.i(TAG, "Not time to move yet: " + startTime + ">" + normalizedGameTime);
         }
 //        if (move && (unitStartTime > normalizedGameTime)) {
-        if (move) {
-            angle += 25;
+       /* if (move) {
             yc = yc + dy;
             xc = xc + dx;
             if (dy > 0 && dx == 0) { // Moving Up
@@ -119,7 +114,7 @@ public class Rect1 {
 
             }
         }
-
+*/
 //        Log.i("draw", xc + " , " + yc);
 //        gl.glScalef(0.05f, 0.05f, 1.0f);
 
@@ -141,50 +136,4 @@ public class Rect1 {
 
     }
 
-    /*
-     *
-     */
-
-    public void nextWayPoint() {
-        int nWayPoints = wayPoints.size();
-        Log.i("Rect1", "Moving from wayPoint: " + currentWayPoint + "=>" + (currentWayPoint + 1) + " T:" + nWayPoints);
-        if ((currentWayPoint + 1) < nWayPoints) {
-            WayPoint wayPoint0 = wayPoints.get(currentWayPoint);
-            WayPoint wayPoint1 = wayPoints.get(currentWayPoint + 1);
-            dx = wayPoint0.dx;
-            dy = wayPoint0.dy;
-            nextWayPointX = wayPoint1.x;
-            nextWayPointY = wayPoint1.y;
-            Log.i("Rect1", "(x,y,dx,dy)=>("
-                    + nextWayPointX + ","
-                    + nextWayPointY + ","
-                    + dx + ","
-                    + dy + ")");
-
-            currentWayPoint++;
-        } else {
-            Log.i(TAG, "Unit reached the end of waypoints: "
-                    + (currentWayPoint + 1) + ">"
-                    + nWayPoints);
-            isAlive = false;
-        }
-    }
-
-    /*
-     *
-     */
-    public void initOrigin() {
-        currentWayPoint = 0;
-        nextWayPoint();
-
-        /*WayPoint wayPoint0 = wayPoints.get(0);
-        WayPoint wayPoint1 = wayPoints.get(1);
-        dx = wayPoint0.dx;
-        dy = wayPoint0.dy;
-        nextWayPointX = wayPoint1.x;
-        nextWayPointY = wayPoint1.y;
-*/
-//        currentWayPoint = 1; // 0 is the origin, 1 is the first destination
-
-    }
 }
