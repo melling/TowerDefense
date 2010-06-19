@@ -8,8 +8,6 @@ import java.util.Random;
 
 import javax.microedition.khronos.opengles.GL10;
 
-import android.opengl.GLU;
-import android.util.Log;
 
 public class ParticleSystem {
 	private Particle[] mParticles;
@@ -32,8 +30,8 @@ public class ParticleSystem {
 		// a simple triangle, kinda like this ^
 //		float[] coords = { -0.1f, 0.0f, 0.0f, 0.1f, 0.0f, 0.0f, 0.0f, 0.0f,0.1f };
 		float[] coords = { 1f, 0.0f, 0.0f,
-							10f, 0.0f, 0.0f, 
-							0.0f, 10.0f,0f };
+					       5f, 0.0f, 0.0f, 
+						  0.0f, 5.0f,0f };
 		short[] icoords = { 0, 1, 2 };
 
 		mVertexBuffer = makeFloatBuffer(coords);
@@ -62,19 +60,14 @@ public class ParticleSystem {
 
 	public void draw(GL10 gl) {
 		gl.glVertexPointer(3, GL10.GL_FLOAT, 0, mVertexBuffer);
-		gl.glColor4f(1f, 1f, 1f, 1f);
+		gl.glColor4f(1f, 0f, 1f, 0f);
 		int s=10;
 		for (int i = 0; i < PARTICLECOUNT; i++) {
 			gl.glPushMatrix();
             //Enable vertex buffer
 			
             gl.glEnableClientState(GL10.GL_VERTEX_ARRAY);
-			gl.glTranslatef(mParticles[i].x+200, mParticles[i].y+200, 1f);
-//			gl.glTranslatef(mParticles[i].x, mParticles[i].y, mParticles[i].z);
-			float xx = mParticles[i].x;
-			float yy =mParticles[i].y;
-			float zz =mParticles[i].z;
-			Log.i("coordinates",xx+"::x::"+yy+":yy:"+zz+"::zz::");
+			gl.glTranslatef(mParticles[i].x, mParticles[i].y, 0);
 //			gl.glScalef(100, 100, 1);
 			gl.glDrawElements(GL10.GL_TRIANGLES, 3, GL10.GL_UNSIGNED_SHORT,
 					mIndexBuffer);
@@ -101,9 +94,13 @@ public class ParticleSystem {
 	// and when they hit zero, bump them back up to a z of 1.0f
 	public void update() {
 		for (int i = 0; i < PARTICLECOUNT; i++) {
-			mParticles[i].y = mParticles[i].y - 10f;
+			mParticles[i].y = mParticles[i].y - 5f;
+			mParticles[i].x = mParticles[i].x - 5f;
 			if (mParticles[i].y < 0.0f) {
-				mParticles[i].y = 10.0f;
+				mParticles[i].y = 750f;
+			}
+			if (mParticles[i].x < 0.0f) {
+				mParticles[i].x = 400f;
 			}
 		}
 	}
