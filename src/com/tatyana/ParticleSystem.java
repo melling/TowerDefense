@@ -69,12 +69,12 @@ public class ParticleSystem {
             //Enable vertex buffer
 			
             gl.glEnableClientState(GL10.GL_VERTEX_ARRAY);
-			gl.glTranslatef(mParticles[i].x+100, mParticles[i].y+100, 1f);
+			gl.glTranslatef(mParticles[i].x+200, mParticles[i].y+200, 1f);
 //			gl.glTranslatef(mParticles[i].x, mParticles[i].y, mParticles[i].z);
 			float xx = mParticles[i].x;
 			float yy =mParticles[i].y;
 			float zz =mParticles[i].z;
-		Log.i("coordinates",xx+"::x::"+yy+":yy:"+zz+"::zz::");
+			Log.i("coordinates",xx+"::x::"+yy+":yy:"+zz+"::zz::");
 //			gl.glScalef(100, 100, 1);
 			gl.glDrawElements(GL10.GL_TRIANGLES, 3, GL10.GL_UNSIGNED_SHORT,
 					mIndexBuffer);
