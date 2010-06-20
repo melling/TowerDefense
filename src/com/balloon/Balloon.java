@@ -32,6 +32,8 @@ public class Balloon {
     public float greenColor = 0.5f;
     public float angle = 0;
 
+    private int[] boundingRect = new int[4];
+
     double nextWayPointX;
     double nextWayPointY;
     boolean isAlive = true;
@@ -53,6 +55,11 @@ public class Balloon {
     private int dy;
     public int unitStartTime;
 
+    static int TOP=0;
+    static int LEFT=1;
+    static int BOTTOM=2;
+    static int RIGHT=3;
+
     /**
      * The Square constructor.
      * <p/>
@@ -66,6 +73,15 @@ public class Balloon {
         vertexBuffer.put(vertices);
         vertexBuffer.position(0);
 
+
+    }
+
+    public boolean isCollision(int[] r2) {
+
+        return ((r2[LEFT] > boundingRect[RIGHT])
+            || (r2[RIGHT] > boundingRect[LEFT])
+            || (r2[TOP] > boundingRect[BOTTOM])
+            || (r2[BOTTOM] > boundingRect[TOP]) );
 
     }
 
@@ -87,10 +103,10 @@ public class Balloon {
         if (!isAlive) return; // TODO: Just make sure object is removed
 
         if (unitStartTime < normalizedGameTime) {
-            Log.i(TAG, "Time  to move yet: " + unitStartTime + "<" + normalizedGameTime);
+//            Log.i(TAG, "Time  to move yet: " + unitStartTime + "<" + normalizedGameTime);
         } else {
             move = false;
-            Log.i(TAG, "Unit waiting to move: " + unitStartTime + ">=" + normalizedGameTime);
+//            Log.i(TAG, "Unit waiting to move: " + unitStartTime + ">=" + normalizedGameTime);
 
         }
         //Set the face rotation
@@ -105,6 +121,11 @@ public class Balloon {
             angle += 25;
             yc = yc + dy;
             xc = xc + dx;
+            boundingRect[TOP] = yc;
+            boundingRect[LEFT] = xc;
+            boundingRect[BOTTOM] = xc + (int)qWidth;
+            boundingRect[RIGHT] = yc + (int)qWidth;
+
             if (dy > 0 && dx == 0) { // Moving Up
                 if (yc >= nextWayPointY) {
                     nextWayPoint();

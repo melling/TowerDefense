@@ -3,7 +3,6 @@ package com.balloon;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
-import java.util.List;
 
 import javax.microedition.khronos.opengles.GL10;
 
@@ -20,7 +19,6 @@ import android.util.Log;
 
 public class Missile {
 
-    private String TAG = "Missile";
     /**
      * The buffer holding the vertices
      */
@@ -31,18 +29,19 @@ public class Missile {
     public float blueColor = 1f;
     public float greenColor = 0f;
     public float angle = 0;
+    private int[] boundingRect = new int[4];
 
-    double nextWayPointX;
-    double nextWayPointY;
+//    double nextWayPointX;
+//    double nextWayPointY;
     boolean isAlive = true;
 //    boolean isVisible = false;
-    List<WayPoint> wayPoints;
-    int currentWayPoint = 0;
+//    List<WayPoint> wayPoints;
+//    int currentWayPoint = 0;
     /**
      * The initial vertex definition
      */
-    float qWidth = 2f;
-    float qHeight = 5f;
+    float qWidth = 5f;
+    float qHeight = 10f;
 
     private float vertices[] = {
             0, 0, //Bottom Left
@@ -50,9 +49,7 @@ public class Missile {
             0, qHeight,     //Top Left
             qWidth, qHeight     //Top Right
     };
-    private int dx;
-    private int dy=5;
-    public int unitStartTime;
+    //    public int unitStartTime;
 
     /**
      * The Square constructor.
@@ -60,6 +57,8 @@ public class Missile {
      * Initiate the buffers.
      */
     public Missile() {
+        String TAG = "Missile";
+        Log.i(TAG, "Creating Missile");
         //
         ByteBuffer byteBuf = ByteBuffer.allocateDirect(vertices.length * 4);
         byteBuf.order(ByteOrder.nativeOrder());
@@ -70,9 +69,14 @@ public class Missile {
 
     }
 
-    public void setWayPoints(List<WayPoint> wp) {
-        this.wayPoints = wp;
+    public int[] getRect() {
+        return boundingRect;
     }
+
+//    public void setWayPoints(List<WayPoint> wp) {
+//        Log.i(TAG, "Setting wayPoints");
+//        this.wayPoints = wp;
+//    }
 
     /**
      * The object own drawing function.
@@ -81,9 +85,8 @@ public class Missile {
      *
      * @param gl                 - The GL context
      * @param move               - Can we move
-     * @param normalizedGameTime - Time in seconds since game began, ignoring user pauses
      */
-    public void draw(GL10 gl, boolean move, long normalizedGameTime) {
+    public void draw(GL10 gl, boolean move) {
 
         if (!isAlive) return; // TODO: Just make sure object is removed
 
@@ -104,28 +107,9 @@ public class Missile {
             gl.glRotatef(angle, 0, 0, 1);
 //        if (move) {
 //            angle += 25;
+            int dy = 5;
             yc = yc + dy;
 //            xc = xc + dx;
-            if (dy > 0 && dx == 0) { // Moving Up
-                if (yc >= nextWayPointY) {
-//                    nextWayPoint();
-                }
-
-            } else if (dy == 0 && dx < 0) {  // Moving Left
-                if (xc <= nextWayPointX) {
-//                    nextWayPoint();
-                }
-            } else if (dy < 0 && dx == 0) {  // Moving down
-                if (yc <= nextWayPointY) {
-//                    nextWayPoint();
-                }
-            } else if (dy == 0 && dx > 0) {  // Moving right
-                if (xc >= nextWayPointY) {
-//                    nextWayPoint();
-                }
-            } else if (dy <= 0 && dx > 0) {  // Moving diagonal to right
-
-            }
 
 //        Log.i("draw", xc + " , " + yc);
 //        gl.glScalef(0.05f, 0.05f, 1.0f);

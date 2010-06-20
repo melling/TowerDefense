@@ -29,10 +29,10 @@ public class BalloonGameRenderer implements GLSurfaceView.Renderer {
     private Player player;
 
     private List<Balloon> balloons;
-//    private List<Circle> circleUnits;
+    private List<Missile> missiles;
 //
     private List<WayPoint> wayPoints;
-
+    private long lastShotTime = 0;
     // Game Time vars
     private long gameTime;
     private long gameStartTime;
@@ -58,6 +58,15 @@ public class BalloonGameRenderer implements GLSurfaceView.Renderer {
 
     }
 
+    private void newMissile(int xc, int yc) {
+        Missile missile = new Missile();
+        missile.xc = xc;
+        missile.yc = yc;
+
+        missiles.add(missile);
+
+    }
+
     public void onSurfaceCreated(GL10 gl, EGLConfig config) {
         gl.glShadeModel(GL10.GL_SMOOTH);
         gl.glClearColor(0, 0, 0, 0);
@@ -70,6 +79,7 @@ public class BalloonGameRenderer implements GLSurfaceView.Renderer {
 
         wayPoints = new ArrayList<WayPoint>();
         balloons = new ArrayList<Balloon>();
+        missiles = new ArrayList<Missile>();
 
         loadBalloonWayPoints("balloonLevel1WayPoints.txt"); // Must load wayPoints first
         loadBalloons("level1Balloons.txt");
@@ -81,24 +91,11 @@ public class BalloonGameRenderer implements GLSurfaceView.Renderer {
 
         player.xc = 100;
         player.yc = 50;
-        /* backgroundSquare = new Square3();
 
-     path = new Path2();
-     square2 = new Square2();
-     square2.xc = 150;
-     square2.yc = 150;
-
-     square3 = new Square2();
-     square3.xc = 350;
-     square3.yc = 350;
-
-     rect1 = new Rect1();
-     rect1.xc = 200;
-     rect1.yc = 400;
-
-     circleUnits = new ArrayList<Circle>();*/
+        newMissile(120, 70);
 
     }
+
 
     public void onDrawFrame(GL10 gl) {
 
@@ -108,6 +105,12 @@ public class BalloonGameRenderer implements GLSurfaceView.Renderer {
 
         long currentTime = System.currentTimeMillis();
         normalizedGameTime = (currentTime - gameStartTime) / 1000; // Time in seconds
+
+        if ((normalizedGameTime % 5 == 0) && normalizedGameTime > lastShotTime) {
+            newMissile(120, 70);
+            lastShotTime = normalizedGameTime;
+            Log.i(TAG, "Shooting");
+        }
 
         boolean move = false;
         if ((currentTime - gameTime) > 50) {
@@ -124,7 +127,28 @@ public class BalloonGameRenderer implements GLSurfaceView.Renderer {
         gl.glLoadIdentity();
 
 //        backgroundSquare.draw(gl,true,gameTime);
-        player.draw(gl,true,gameTime);
+        player.draw(gl, true, gameTime);
+
+        // Collisions
+        for (Missile missile : missiles) {
+            int[] r1 = missile.getRect();
+            for (Balloon balloon : balloons) {
+                boolean isCollision = balloon.isCollision(r1);
+                if (isCollision) {
+                    Log.i(TAG, "Collision");
+                }
+
+            }
+        }
+
+        // Missiles
+
+        for (Missile missile : missiles) {
+            missile.draw(gl, move);
+
+        }
+
+        // Balloons
         for (Balloon balloon : balloons) {
             balloon.draw(gl, move, normalizedGameTime);
 
