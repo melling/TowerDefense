@@ -2,9 +2,9 @@
 <menu
   xmlns:android="http://schemas.android.com/apk/res/android">
      <group android:id="@+id/menuGroup_Main">
-      <item android:id="@+id/mid_OpenGL_SimpleTriangle" android:title="Tatyana Test" />
+      <item android:id="@+id/tatyana_test" android:title="Tatyana Test" />
 
-      <item android:id="@+id/mid_square_polygon" android:title="Feras Test" />
+      <item android:id="@+id/feras_test" android:title="Feras Test" />
 
       <item android:id="@+id/tower_defense" android:title="Tower Defense" />
       
