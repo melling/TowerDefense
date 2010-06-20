@@ -38,55 +38,55 @@ public class GameActivity extends Activity {
 		// game
 	}
 
-//	@Override
-//	public boolean onOptionsItemSelected(MenuItem item) {
-//
-//		if (item.getItemId() == R.id.pro_android) {
-//			Log.i("Menu Android ii", "Clicked Pro Android II");
-//			// surface = new GameGLSurfaceView(this);
-//			GLSurfaceView surfaceProAndroid = new GLSurfaceView(this);
-//			// renderer = new GLRenderer();
-//			PolygonRenderer renderer = new PolygonRenderer(this);
-//			surfaceProAndroid.setRenderer(renderer);
-//			// renderer.setContext(this);
-//			setContentView(surfaceProAndroid);
-//
-//		} else if (item.getItemId() == R.id.tower_defense) {
-//			Log.i("TowerDefence", "Clicked TowerDefense");
-//
-//			// surface1 = new GLSurfaceView(this);
-//			GameGLSurfaceView surface = new GameGLSurfaceView(this);
-//			// renderer1 = new com.td.GameRenderer(this);
-//			// renderer1 = new GLRenderer();
-//			// renderer = new PolygonRenderer(this);
-//			// surface.setRenderer(renderer1);
-//			// renderer1.setContext(this);
-//			setContentView(surface);
-//
-//		} else if (item.getItemId() == R.id.balloon_menu) {
-//			Log.i("FOO", "Clicked Balloon");
-//			setContentView(new com.balloon.GameGLSurfaceView(this));
-//
-//		}
-//
-//		else if (item.getItemId() == R.id.mid_OpenGL_SimpleTriangle) {
-//			// Tatyana's
-//			Log.i("Particals", "Particals");
-//			// renderer.setContext(this);
-//			// ParticleSystemDemo d = new ParticleSystemDemo();
-//			Intent i = new Intent(this, com.particles.ParticleSystemDemo.class);
-//			startActivity(i);
-//			// setContentView(surfaceProAndroidi);
-//
-//		}
-//		return true;
-//	}
-//
-//	@Override
-//	public boolean onCreateOptionsMenu(Menu menu) {
-//		MenuInflater inflater = getMenuInflater();
-//		inflater.inflate(R.menu.menu1, menu);
-//
-//		return true;
-//	}
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+
+		if (item.getItemId() == R.id.pro_android) {
+			Log.i("Menu Android ii", "Clicked Pro Android II");
+			// surface = new GameGLSurfaceView(this);
+			GLSurfaceView surfaceProAndroid = new GLSurfaceView(this);
+			// renderer = new GLRenderer();
+			PolygonRenderer renderer = new PolygonRenderer(this);
+			surfaceProAndroid.setRenderer(renderer);
+			// renderer.setContext(this);
+			setContentView(surfaceProAndroid);
+
+		} else if (item.getItemId() == R.id.tower_defense) {
+			Log.i("TowerDefence", "Clicked TowerDefense");
+
+			// surface1 = new GLSurfaceView(this);
+			GameGLSurfaceView surface = new GameGLSurfaceView(this);
+			// renderer1 = new com.td.GameRenderer(this);
+			// renderer1 = new GLRenderer();
+			// renderer = new PolygonRenderer(this);
+			// surface.setRenderer(renderer1);
+			// renderer1.setContext(this);
+			setContentView(surface);
+
+		} else if (item.getItemId() == R.id.balloon_menu) {
+			Log.i("FOO", "Clicked Balloon");
+			setContentView(new com.balloon.GameGLSurfaceView(this));
+
+		}
+
+		else if (item.getItemId() == R.id.tatyana_test) {
+			// Tatyana's
+			Log.i("Particals", "Particals");
+			// renderer.setContext(this);
+			// ParticleSystemDemo d = new ParticleSystemDemo();
+			Intent i = new Intent(this, com.particles.ParticleSystemDemo.class);
+			startActivity(i);
+			// setContentView(surfaceProAndroidi);
+
+		}
+		return true;
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.menu1, menu);
+
+		return true;
+	}
 }
