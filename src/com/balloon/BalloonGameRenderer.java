@@ -37,6 +37,7 @@ public class BalloonGameRenderer implements GLSurfaceView.Renderer {
     private long gameTime;
     private long gameStartTime;
     private long normalizedGameTime;
+    static int missileCount = 0;
 //    private Circle circle;
 //    Path2 path;
 //    private Square2 square2;
@@ -92,7 +93,7 @@ public class BalloonGameRenderer implements GLSurfaceView.Renderer {
         player.xc = 100;
         player.yc = 50;
 
-        newMissile(120, 70);
+//        newMissile(120, 70);
 
     }
 
@@ -106,7 +107,8 @@ public class BalloonGameRenderer implements GLSurfaceView.Renderer {
         long currentTime = System.currentTimeMillis();
         normalizedGameTime = (currentTime - gameStartTime) / 1000; // Time in seconds
 
-        if ((normalizedGameTime % 5 == 0) && normalizedGameTime > lastShotTime) {
+        if ((normalizedGameTime % 2 == 0) && normalizedGameTime > lastShotTime && missileCount < 1) {
+            missileCount++;
             newMissile(120, 70);
             lastShotTime = normalizedGameTime;
             Log.i(TAG, "Shooting");
@@ -130,14 +132,20 @@ public class BalloonGameRenderer implements GLSurfaceView.Renderer {
         player.draw(gl, true, gameTime);
 
         // Collisions
+//        Log.i(TAG, "== Go Boom? ==");
         for (Missile missile : missiles) {
-            int[] r1 = missile.getRect();
-            for (Balloon balloon : balloons) {
-                boolean isCollision = balloon.isCollision(r1);
-                if (isCollision) {
-                    Log.i(TAG, "Collision");
-                }
+            int[] missileRectangle = missile.getRect();
+            if (missileRectangle[0] > 600) {
+                for (Balloon balloon : balloons) {
+                    boolean isCollision = balloon.isCollision(missileRectangle);
+                    if (isCollision) {
+                        Log.i(TAG, "COLLISION");
+                    } else {
+//                    Log.i(TAG, "NO Collision: " + missileRectangle[0] + "," + missileRectangle[1] + missileRectangle[2] + "," + missileRectangle[3]);
 
+                    }
+
+                }
             }
         }
 
@@ -179,10 +187,8 @@ public class BalloonGameRenderer implements GLSurfaceView.Renderer {
 
         Log.d("SpriteRenderer", width + "x" + height);
         GLU.gluOrtho2D(gl, 0, 480, 0, 800);
-//        GLU.gluOrtho2D(gl, 0, 480, 0, 320);
         gl.glMatrixMode(GL10.GL_MODELVIEW);
         gl.glDisable(GL10.GL_DEPTH_TEST);
-//         gl.glEnable(GL10.GL_DEPTH_TEST);
         gl.glLoadIdentity();
 
 
@@ -262,7 +268,7 @@ public class BalloonGameRenderer implements GLSurfaceView.Renderer {
                         balloon.xc = levelStartX;
                         balloon.yc = levelStartY;
                         levelStartX += 35;
-                        balloon.angle = 75;
+                        balloon.angle = 0;
                         balloon.setWayPoints(wayPoints);
                         balloon.initOrigin();
                         balloons.add(balloon);

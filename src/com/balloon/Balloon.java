@@ -51,14 +51,22 @@ public class Balloon {
             -qWidth, qWidth,     //Top Left
             qWidth, qWidth     //Top Right
     };
+
+    /*   private float vertices[] = {
+            0, 0, //Bottom Left
+            qWidth, 0,     //Bottom Right
+            0, qWidth,     //Top Left
+            qWidth, qWidth     //Top Right
+    };*/
+
     private int dx;
     private int dy;
     public int unitStartTime;
 
-    static int TOP=0;
-    static int LEFT=1;
-    static int BOTTOM=2;
-    static int RIGHT=3;
+    static int TOP = 0;
+    static int LEFT = 1;
+    static int BOTTOM = 2;
+    static int RIGHT = 3;
 
     /**
      * The Square constructor.
@@ -76,13 +84,48 @@ public class Balloon {
 
     }
 
+    /*
+     *  Detect collision where the 0,0 is at the bottom left corner
+     *
+     */
     public boolean isCollision(int[] r2) {
 
-        return ((r2[LEFT] > boundingRect[RIGHT])
-            || (r2[RIGHT] > boundingRect[LEFT])
-            || (r2[TOP] > boundingRect[BOTTOM])
-            || (r2[BOTTOM] > boundingRect[TOP]) );
+        boolean collision;
 
+        // Assume we don't have collisions if anything is zero.
+        if (r2[LEFT] == 0
+                || r2[RIGHT] == 0
+                || r2[TOP] == 0
+                || r2[BOTTOM] == 0) {
+            return false;
+        }
+        if (r2[TOP] < 500 || r2[BOTTOM] > 730) {
+            return false;
+        }
+        
+        collision = !((r2[LEFT] > boundingRect[RIGHT])
+                || (r2[RIGHT] < boundingRect[LEFT])
+                || (r2[TOP] < boundingRect[BOTTOM])
+                || (r2[BOTTOM] > boundingRect[TOP]));
+        if (collision) {
+            Log.i(TAG, "------------------------");
+
+            Log.i(TAG, "Found Collision BR (Top,Left,Bottom,Right):" + boundingRect[0] + "," + boundingRect[1] + "," + boundingRect[2] + "," + boundingRect[3]);
+            Log.i(TAG, "Found Collision r2 (Top,Left,Bottom,Right): " + r2[0] + "," + r2[1] +  "," + r2[2] + "," + r2[3]);
+
+        } else {
+
+            Log.i(TAG, "------------------------");
+            Log.i(TAG, "NO Collision BR (Top,Left,Bottom,Right):" + boundingRect[0] + "," + boundingRect[1] + "," + boundingRect[2] + "," + boundingRect[3]);
+            Log.i(TAG, "NO Collision r2 (Top,Left,Bottom,Right): " + r2[0] + "," + r2[1] +  "," + r2[2] + "," + r2[3]);
+            int a = (r2[LEFT] - boundingRect[RIGHT]);
+            int b = (r2[TOP] - boundingRect[BOTTOM]);
+            Log.i(TAG, "r2[LEFT] > boundingRect[RIGHT] =>(" + r2[LEFT] + " > " + boundingRect[RIGHT] + ")");
+            Log.i(TAG, "r2[RIGHT] < boundingRect[LEFT] =>(" + r2[RIGHT] + " < " + boundingRect[LEFT] + ")");
+            Log.i(TAG, "r2[TOP] < boundingRect[BOTTOM] =>(" + r2[TOP] + " < " + boundingRect[BOTTOM] + ")");
+            Log.i(TAG, "r2[BOTTOM] > boundingRect[BOTTOM] =>(" + r2[BOTTOM] + " > " + boundingRect[TOP] + ")");
+        }
+        return collision;
     }
 
     public void setWayPoints(List<WayPoint> wp) {
@@ -118,13 +161,15 @@ public class Balloon {
             gl.glTranslatef(xc, yc, 0f);
             gl.glRotatef(angle, 0, 0, 1);
 //        if (move) {
-            angle += 25;
+//            angle += 25;
             yc = yc + dy;
             xc = xc + dx;
-            boundingRect[TOP] = yc;
-            boundingRect[LEFT] = xc;
-            boundingRect[BOTTOM] = xc + (int)qWidth;
-            boundingRect[RIGHT] = yc + (int)qWidth;
+            boundingRect[TOP] = yc + (int)qWidth;
+            boundingRect[LEFT] = xc - (int) qWidth;
+            boundingRect[BOTTOM] = yc - (int) qWidth;
+            boundingRect[RIGHT] = xc + (int) qWidth;
+
+//            Log.i(TAG, "SETTING BR:" + boundingRect[0] + "," + boundingRect[1] + "," + boundingRect[2] + "," + boundingRect[3]);
 
             if (dy > 0 && dx == 0) { // Moving Up
                 if (yc >= nextWayPointY) {

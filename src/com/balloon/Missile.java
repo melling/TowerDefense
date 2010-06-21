@@ -31,6 +31,11 @@ public class Missile {
     public float angle = 0;
     private int[] boundingRect = new int[4];
 
+    static int TOP = 0;
+    static int LEFT = 1;
+    static int BOTTOM = 2;
+    static int RIGHT = 3;
+
 //    double nextWayPointX;
 //    double nextWayPointY;
     boolean isAlive = true;
@@ -83,8 +88,8 @@ public class Missile {
      * Called from the renderer to redraw this instance
      * with possible changes in values.
      *
-     * @param gl                 - The GL context
-     * @param move               - Can we move
+     * @param gl   - The GL context
+     * @param move - Can we move
      */
     public void draw(GL10 gl, boolean move) {
 
@@ -109,10 +114,11 @@ public class Missile {
 //            angle += 25;
             int dy = 5;
             yc = yc + dy;
-//            xc = xc + dx;
-
-//        Log.i("draw", xc + " , " + yc);
-//        gl.glScalef(0.05f, 0.05f, 1.0f);
+            int i = 0;
+            boundingRect[TOP] = yc + (int)qHeight/2;   // TOP
+            boundingRect[LEFT] = xc - (int)qWidth/2;    // LEFT
+            boundingRect[BOTTOM] = yc - (int)qHeight/2; // BOTTOM
+            boundingRect[RIGHT] = xc + (int)qWidth/2; // RIGHT
 
 
             //Point to our vertex buffer
@@ -132,11 +138,11 @@ public class Missile {
         }
 
     }
-    
+
 
     /*
-     *
-     */
+    *
+    */
 
 //    public void nextWayPoint() {
 //        int nWayPoints = wayPoints.size();

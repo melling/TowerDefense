@@ -74,8 +74,8 @@ public class GameActivity extends Activity {
 			Log.i("Particals", "Particals");
 			// renderer.setContext(this);
 			// ParticleSystemDemo d = new ParticleSystemDemo();
-			Intent i = new Intent(this, com.particles.ParticleSystemDemo.class);
-			startActivity(i);
+//			Intent i = new Intent(this, com.particles.ParticleSystemDemo.class);
+//			startActivity(i);
 			// setContentView(surfaceProAndroidi);
 
 		}
