@@ -24,6 +24,7 @@ public class GameActivity extends Activity {
 	private PolygonRenderer renderer;
 
 	// private GLRenderer renderer1;
+	
 
 	/**
 	 * Called when the activity is first created.
@@ -33,8 +34,7 @@ public class GameActivity extends Activity {
 		super.onCreate(savedInstanceState);
 
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
-
-		setContentView(new com.td.GameGLSurfaceView(this)); // Set default
+		setContentView(new com.balloon.GameGLSurfaceView(this)); // Set default
 		// game
 	}
 
@@ -72,12 +72,9 @@ public class GameActivity extends Activity {
 		else if (item.getItemId() == R.id.tatyana_test) {
 			// Tatyana's
 			Log.i("Particals", "Particals");
-			// renderer.setContext(this);
-			// ParticleSystemDemo d = new ParticleSystemDemo();
-//			Intent i = new Intent(this, com.particles.ParticleSystemDemo.class);
-//			startActivity(i);
-			// setContentView(surfaceProAndroidi);
-
+			setContentView(new com.td.GameGLSurfaceView(this)); 
+		//	Intent i = new Intent(this, com.particles.ParticleSystemDemo.class);
+		//	startActivity(i);
 		}
 		return true;
 	}

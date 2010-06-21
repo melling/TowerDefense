@@ -12,7 +12,7 @@ import android.util.Log;
 
 public class ParticleSystem {
 	private Particle[] mParticles;
-	private int PARTICLECOUNT = 50;
+	private int PARTICLECOUNT = 100;
 
 	// for use to draw the particle
 	private FloatBuffer mVertexBuffer;
@@ -33,8 +33,8 @@ public class ParticleSystem {
 		// float[] coords = { -0.1f, 0.0f, 0.0f, 0.1f, 0.0f, 0.0f, 0.0f,
 		// 0.0f,0.1f };
 		float[] coords = { 1f, 0.0f, 0.0f, 
-							10f, 0.0f, 0.0f, 
-							0.0f, 10.0f, 0f };
+							5f, 0.0f, 0.0f, 
+							0.0f, 5.0f, 0f };
 		short[] icoords = { 0, 1, 2 };
 
 		mVertexBuffer = makeFloatBuffer(coords);
@@ -89,9 +89,13 @@ public class ParticleSystem {
 	// and when they hit zero, bump them back up to a z of 1.0f
 	public void update() {
 		for (int i = 0; i < PARTICLECOUNT; i++) {
-			mParticles[i].y = mParticles[i].y - 10f;
+			mParticles[i].y = mParticles[i].y - 5f;
 			if (mParticles[i].y < 0.0f) {
-				mParticles[i].y = 10.0f;
+				mParticles[i].y = 800.0f;
+			}
+			mParticles[i].y = mParticles[i].y - 5f;
+			if (mParticles[i].y < 0.0f) {
+				mParticles[i].y = 400.0f;
 			}
 		}
 	}
