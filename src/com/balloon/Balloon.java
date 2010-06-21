@@ -67,6 +67,7 @@ public class Balloon {
     static int LEFT = 1;
     static int BOTTOM = 2;
     static int RIGHT = 3;
+    private boolean isShot = false;
 
     /**
      * The Square constructor.
@@ -88,6 +89,7 @@ public class Balloon {
      *  Detect collision where the 0,0 is at the bottom left corner
      *
      */
+
     public boolean isCollision(int[] r2) {
 
         boolean collision;
@@ -102,7 +104,7 @@ public class Balloon {
         if (r2[TOP] < 500 || r2[BOTTOM] > 730) {
             return false;
         }
-        
+
         collision = !((r2[LEFT] > boundingRect[RIGHT])
                 || (r2[RIGHT] < boundingRect[LEFT])
                 || (r2[TOP] < boundingRect[BOTTOM])
@@ -111,13 +113,13 @@ public class Balloon {
             Log.i(TAG, "------------------------");
 
             Log.i(TAG, "Found Collision BR (Top,Left,Bottom,Right):" + boundingRect[0] + "," + boundingRect[1] + "," + boundingRect[2] + "," + boundingRect[3]);
-            Log.i(TAG, "Found Collision r2 (Top,Left,Bottom,Right): " + r2[0] + "," + r2[1] +  "," + r2[2] + "," + r2[3]);
+            Log.i(TAG, "Found Collision r2 (Top,Left,Bottom,Right): " + r2[0] + "," + r2[1] + "," + r2[2] + "," + r2[3]);
 
         } else {
 
             Log.i(TAG, "------------------------");
             Log.i(TAG, "NO Collision BR (Top,Left,Bottom,Right):" + boundingRect[0] + "," + boundingRect[1] + "," + boundingRect[2] + "," + boundingRect[3]);
-            Log.i(TAG, "NO Collision r2 (Top,Left,Bottom,Right): " + r2[0] + "," + r2[1] +  "," + r2[2] + "," + r2[3]);
+            Log.i(TAG, "NO Collision r2 (Top,Left,Bottom,Right): " + r2[0] + "," + r2[1] + "," + r2[2] + "," + r2[3]);
             int a = (r2[LEFT] - boundingRect[RIGHT]);
             int b = (r2[TOP] - boundingRect[BOTTOM]);
             Log.i(TAG, "r2[LEFT] > boundingRect[RIGHT] =>(" + r2[LEFT] + " > " + boundingRect[RIGHT] + ")");
@@ -164,7 +166,7 @@ public class Balloon {
 //            angle += 25;
             yc = yc + dy;
             xc = xc + dx;
-            boundingRect[TOP] = yc + (int)qWidth;
+            boundingRect[TOP] = yc + (int) qWidth;
             boundingRect[LEFT] = xc - (int) qWidth;
             boundingRect[BOTTOM] = yc - (int) qWidth;
             boundingRect[RIGHT] = xc + (int) qWidth;
@@ -260,5 +262,13 @@ public class Balloon {
 */
 //        currentWayPoint = 1; // 0 is the origin, 1 is the first destination
 
+    }
+
+    public void setShot() {
+        isShot = true;
+
+        redColor = 1.0f;
+        blueColor = 0.0f;
+        greenColor = 0.0f;
     }
 }

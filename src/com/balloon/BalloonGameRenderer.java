@@ -107,7 +107,7 @@ public class BalloonGameRenderer implements GLSurfaceView.Renderer {
         long currentTime = System.currentTimeMillis();
         normalizedGameTime = (currentTime - gameStartTime) / 1000; // Time in seconds
 
-        if ((normalizedGameTime % 2 == 0) && normalizedGameTime > lastShotTime && missileCount < 1) {
+        if ((normalizedGameTime % 2 == 0) && normalizedGameTime > lastShotTime && missileCount < 15) {
             missileCount++;
             newMissile(120, 70);
             lastShotTime = normalizedGameTime;
@@ -140,6 +140,8 @@ public class BalloonGameRenderer implements GLSurfaceView.Renderer {
                     boolean isCollision = balloon.isCollision(missileRectangle);
                     if (isCollision) {
                         Log.i(TAG, "COLLISION");
+                        balloon.setShot();
+                        missile.exploded();
                     } else {
 //                    Log.i(TAG, "NO Collision: " + missileRectangle[0] + "," + missileRectangle[1] + missileRectangle[2] + "," + missileRectangle[3]);
 

@@ -54,7 +54,6 @@ public class Missile {
             0, qHeight,     //Top Left
             qWidth, qHeight     //Top Right
     };
-    //    public int unitStartTime;
 
     /**
      * The Square constructor.
@@ -187,4 +186,8 @@ public class Missile {
 ////        currentWayPoint = 1; // 0 is the origin, 1 is the first destination
 //
 //    }
+
+    public void exploded() {
+        isAlive = false;
+    }
 }
