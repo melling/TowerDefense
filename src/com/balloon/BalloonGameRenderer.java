@@ -98,6 +98,25 @@ public class BalloonGameRenderer implements GLSurfaceView.Renderer {
     }
 
 
+    public void moveLeft() {
+        player.xc -= 10;
+        if (player.xc < 0) {
+            player.xc = 0;
+        }
+    }
+
+    public void moveRight() {
+        player.xc += 10;
+        if (player.xc > 480) {
+            player.xc = 480;
+        }
+    }
+
+    public void shoot() {
+        newMissile(player.xc, 70);
+//            Log.i(TAG, "Shooting");
+    }
+
     public void onDrawFrame(GL10 gl) {
 
         float _red = 0.5f;
@@ -107,12 +126,10 @@ public class BalloonGameRenderer implements GLSurfaceView.Renderer {
         long currentTime = System.currentTimeMillis();
         normalizedGameTime = (currentTime - gameStartTime) / 1000; // Time in seconds
 
-        if ((normalizedGameTime % 2 == 0) && normalizedGameTime > lastShotTime && missileCount < 15) {
-            missileCount++;
-            newMissile(120, 70);
-            lastShotTime = normalizedGameTime;
-            Log.i(TAG, "Shooting");
-        }
+//        if ((normalizedGameTime % 2 == 0) && normalizedGameTime > lastShotTime && missileCount < 15) {
+//            missileCount++;
+//            lastShotTime = normalizedGameTime;
+//        }
 
         boolean move = false;
         if ((currentTime - gameTime) > 50) {

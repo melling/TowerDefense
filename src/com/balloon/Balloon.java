@@ -117,15 +117,15 @@ public class Balloon {
 
         } else {
 
-            Log.i(TAG, "------------------------");
-            Log.i(TAG, "NO Collision BR (Top,Left,Bottom,Right):" + boundingRect[0] + "," + boundingRect[1] + "," + boundingRect[2] + "," + boundingRect[3]);
-            Log.i(TAG, "NO Collision r2 (Top,Left,Bottom,Right): " + r2[0] + "," + r2[1] + "," + r2[2] + "," + r2[3]);
-            int a = (r2[LEFT] - boundingRect[RIGHT]);
-            int b = (r2[TOP] - boundingRect[BOTTOM]);
-            Log.i(TAG, "r2[LEFT] > boundingRect[RIGHT] =>(" + r2[LEFT] + " > " + boundingRect[RIGHT] + ")");
-            Log.i(TAG, "r2[RIGHT] < boundingRect[LEFT] =>(" + r2[RIGHT] + " < " + boundingRect[LEFT] + ")");
-            Log.i(TAG, "r2[TOP] < boundingRect[BOTTOM] =>(" + r2[TOP] + " < " + boundingRect[BOTTOM] + ")");
-            Log.i(TAG, "r2[BOTTOM] > boundingRect[BOTTOM] =>(" + r2[BOTTOM] + " > " + boundingRect[TOP] + ")");
+//            Log.i(TAG, "------------------------");
+//            Log.i(TAG, "NO Collision BR (Top,Left,Bottom,Right):" + boundingRect[0] + "," + boundingRect[1] + "," + boundingRect[2] + "," + boundingRect[3]);
+//            Log.i(TAG, "NO Collision r2 (Top,Left,Bottom,Right): " + r2[0] + "," + r2[1] + "," + r2[2] + "," + r2[3]);
+//            int a = (r2[LEFT] - boundingRect[RIGHT]);
+//            int b = (r2[TOP] - boundingRect[BOTTOM]);
+//            Log.i(TAG, "r2[LEFT] > boundingRect[RIGHT] =>(" + r2[LEFT] + " > " + boundingRect[RIGHT] + ")");
+//            Log.i(TAG, "r2[RIGHT] < boundingRect[LEFT] =>(" + r2[RIGHT] + " < " + boundingRect[LEFT] + ")");
+//            Log.i(TAG, "r2[TOP] < boundingRect[BOTTOM] =>(" + r2[TOP] + " < " + boundingRect[BOTTOM] + ")");
+//            Log.i(TAG, "r2[BOTTOM] > boundingRect[BOTTOM] =>(" + r2[BOTTOM] + " > " + boundingRect[TOP] + ")");
         }
         return collision;
     }
